@@ -1,0 +1,11 @@
+.form_wrapper {
+    width: 30%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.form_wrapper form{
+    width: 100%;
+}
+

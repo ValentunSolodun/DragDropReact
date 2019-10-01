@@ -1,0 +1,8 @@
+form {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.col {
+    width: 40% !important;
+}
