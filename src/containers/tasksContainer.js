@@ -1,29 +1,23 @@
 import Tables from '../components/table/table';
 import { connect } from 'react-redux';
-import { getBoards } from '../actions/table';
+import { getTasks } from '../actions/table';
 import { createSelector } from 'reselect';
-import React from 'react';
 
-const Test = () => {
+// let tasksSelector = createSelector(
+//     state => state.tasks,
+//     tasks => tasks
+// );
 
-    return (
-        <h1>Test</h1>
-    )
+const mapStateToProps = state => {
+    console.log(state);
+    return {
+        items: state.tasks
+    }
+};
+
+const mapDispatchToProps = (dispatch, args) => {
+    dispatch(getTasks(args.match.params.id));
+    return {};
 }
 
-// let boardsSelector = createSelector(
-//     state => state.tables.boards,
-//     boards => boards
-// );
-//
-// const mapStateToProps = state => ({
-//     boards: boardsSelector(state),
-//     labelHead : ['Name board','Actions']
-// })
-//
-// const mapDispatchToProps = dispatch => {
-//     dispatch(getBoards());
-//     return {};
-// }
-
-export default Test;
+export default connect(mapStateToProps, mapDispatchToProps)(Tables)

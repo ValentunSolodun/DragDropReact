@@ -12,7 +12,7 @@ var cors = require('cors');
 app.use(cookieParser())
 app.use(cors());
 app.use(bodyParser.urlencoded({
-    extended: true
+	extended: true
 }));
 app.use(bodyParser.json());
 
@@ -29,25 +29,33 @@ app.use('/', (req, res, next) => {
 	jwt.verify(token, process.env.SECRET_KEY, (err, data) => {
 		if (err) {
 			res.sendStatus(403);
-		}else {
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+		} else {
+			res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
 			res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 			res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 			res.setHeader('Access-Control-Allow-Credentials', true);
 			req.user = data;
 			next();
 		}
-		
-	});	
+
+	});
 });
 
 
 app.get('/', (req, res) => {
 	let user = req.user;
-	db.query(`SELECT * FROM boards WHERE id_user = '${user.id}' `).then(rows => res.send({rows, user}));
+	db.query(`SELECT * FROM boards WHERE id_user = '${user.id}' `).then(rows => res.send({ rows, user }));
+});
+
+app.get('/tasks/:id', (req, res) => {
+	let user = req.user;
+	db.query(`SELECT * FROM tasks WHERE id_user = '${user.id}' AND id_board = ${req.params["id"]}`)
+		.then(rows => res.send(rows))
+		.catch(e => res.sendStatus(403));
 });
 
 app.post('/', (req, res) => {
+
 	let user = req.user;
 	const addItem = () => {
 		let {
@@ -58,6 +66,28 @@ app.post('/', (req, res) => {
 		db.query(`INSERT INTO boards (board_name, board_description, id_user) VALUES ('${name}', '${description}', ${user.id})`)
 			.then(rows => res.send(rows))
 			.catch(e => res.sendStatus(403))
+	}
+
+	const removeItem = () => {
+		let {
+			id
+		} = req.body;
+
+		db.query(`DELETE FROM boards WHERE id_user = ${user.id} AND id = ${id}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403))
+	}
+
+	const updateItem = () => {
+		console.log(req.body)
+		let {
+			item,
+			values
+		} = req.body;
+
+		db.query(`UPDATE boards SET board_name = '${values.name}', board_description = '${values.description}' WHERE id_user = ${user.id} AND id = ${item}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403));
 	}
 
 	// // console.log(req.headers.token);
@@ -92,13 +122,18 @@ app.post('/', (req, res) => {
 	// 	db.query(`UPDATE texts SET text = '${value}' WHERE id_row = ${idRow} AND id_column = ${idCol} AND id_user = ${idUser}`).then(done => resultQuery(false, done));
 	// }
 
-	switch(req.body.type) {
+	switch (req.body.type) {
 		case 'ADD':
 			addItem();
 			break;
-
-		default :
-			console.log('default');	
+		case 'REMOVE':
+			removeItem();
+			break;
+		case 'UPDATE':
+			updateItem();
+			break;
+		default:
+			console.log('default');
 	}
 });
 

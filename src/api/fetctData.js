@@ -16,6 +16,23 @@ const getBoards = async () => {
     }
 }
 
+const getTasks = async data => {
+    let id = data;
+    console.log(id);
+    try {
+        const response = await axios.get(`http://localhost:3001/tasks/${id}`, { headers: {token: cookie.load('token')}});
+
+        if(response.status === 200) {
+            let json = response.data;
+            return json;
+        }else {
+            return false;
+        }
+    }catch (e) {
+        console.log("Fetch err (get boards) " + e);
+    }
+}
+
 const addItem = async data => {
     let body = data;
     try {
@@ -33,4 +50,36 @@ const addItem = async data => {
     }
 }
 
-export default {getBoards, addItem};
+const removeItem = async data => {
+    let body = data;
+    try {
+        const response = await axios.post('http://localhost:3001/', body, { headers: {token: cookie.load('token')}});
+
+        if(response.status === 200){
+            let json = response.data;
+            return json;
+        }else {
+            return false;
+        }
+    }catch (e) {
+        console.log("Fetch err (remove item) " + e);
+    }
+}
+
+const updateItem = async data => {
+    let body = data;
+    try {
+        const response = await axios.post('http://localhost:3001/', body, { headers: {token: cookie.load('token')}});
+
+        if(response.status === 200){
+            let json = response.data;
+            return json;
+        }else {
+            return false;
+        }
+    }catch (e) {
+        console.log("Fetch err (remove item) " + e);
+    }
+}
+
+export default {getBoards, getTasks, addItem, removeItem, updateItem};

@@ -4,13 +4,13 @@ import { getBoards } from '../actions/table';
 import { createSelector } from 'reselect';
 
 let boardsSelector = createSelector(
-    state => state.tables.boards,
+    state => state.boards,
     boards => boards
 );
 
 const mapStateToProps = state => ({
-    boards: boardsSelector(state),
-    labelHead : ['Name board','Actions']
+    items: boardsSelector(state),
+    type : 'BOARDS'
 })
 
 const mapDispatchToProps = dispatch => {

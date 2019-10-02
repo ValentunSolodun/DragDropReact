@@ -8,7 +8,7 @@ const FromAddItem = (props) => {
     let { add } = props;
     return (
         <div className="form_add_wrapper">
-            <form onSubmit={add}>
+            <form onSubmit={add} className={styles.form_add_item}>
                 <TextInput id="name_item" placeholder="Name" />
                 <TextInput id="desc_item" placeholder="Description" />
                 <Button type="submit" waves="light">
@@ -23,7 +23,7 @@ const FromAddItem = (props) => {
 }
 
 const mapStateToProps = state => ({
-    boards: state.tables.boards
+    boards: state.boards
 });
 
 const mapDispatchToProps = dispatch => ({

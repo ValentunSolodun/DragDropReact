@@ -1,20 +1,19 @@
 import React from 'react';
 import { Route, Router } from 'react-router-dom';
-import Header from './components/navbar/header';
-import { history } from "./helpers/history";
-import Boards from "./containers/boardsContainer"
-import Tasks from "./containers/tasksContainer"
+import Header from './components/header/header';
+import Routing from "./router/routing";
+import {history} from "./helpers/history";
+// import { history } from "./helpers/history";
+// import Boards from "./containers/boardsContainer"
+// import Tasks from "./containers/tasksContainer"
 
 function App() {
     return (
         <div>
-            <Header />
-            <div className="container">
-                <Router history={history}>
-                    <Route path="/tasks" component={Tasks} />
-                    <Route path="/a" component={Boards} />
-                </Router>
-            </div>
+            <Router history={history}>
+                <Header />
+                <Routing />
+            </Router>
         </div>
     )
 }

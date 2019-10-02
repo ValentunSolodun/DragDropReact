@@ -1,8 +1,11 @@
 import { all } from 'redux-saga/effects';
 import registerSend from "./userRegisterSaga";
 import loginSend from "./userLoginSaga";
-import getBoardSend from "./getTableSaga";
+import getBoardSend from "./getBoardsSaga";
 import addItemSaga from "./addItemSaga";
+import removeItemSaga from "./removeItemSaga";
+import updatingItemSaga from "./updateItemSaga";
+import getTasksSaga from "./getTasksSaga";
 
 
 export default function* rootSaga() {
@@ -10,6 +13,9 @@ export default function* rootSaga() {
         loginSend(),
         registerSend(),
         getBoardSend(),
-        addItemSaga()
+        getTasksSaga(),
+        addItemSaga(),
+        removeItemSaga(),
+        updatingItemSaga()
     ])
 }

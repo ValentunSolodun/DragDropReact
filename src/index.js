@@ -20,11 +20,7 @@ sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <Route path="/" component={App} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-        </Router>
+        <App />
     </Provider>,
     document.getElementById('root'));
 

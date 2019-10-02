@@ -2,6 +2,26 @@
     animation: tr_card .25s ease-in-out;
 }
 
+.row_background {
+    background-color: #f1f3f5;
+}
+
+.card_my_style {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1), 0 3px 1px -2px rgba(0,0,0,0.1) !important;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.1), 0 3px 1px -2px rgba(0,0,0,0.1) !important;
+}
+.card_content_my_style {
+    padding: 10px 15px !important;
+    color: #717171 !important;
+}
+.card_content_my_style > span {
+    font-size: 16px !important;
+    color: #4c4c4c !important;
+    text-transform: uppercase !important;
+    font-weight: bold !important;
+}
+
 @keyframes tr_card {
     from {
         opacity: 0;

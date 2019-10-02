@@ -1,11 +1,15 @@
 import {combineReducers} from 'redux';
 
-import tables from '../reducers/tables'
+import boards from './boards'
 import user from '../reducers/user'
+import item from "./item";
+import tasks from "./tasks";
 
 const allReducers = combineReducers({
-    tables,
-    user
+    boards,
+    tasks,
+    user,
+    item
 });
 
 export default allReducers;

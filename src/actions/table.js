@@ -1,5 +1,10 @@
 export const getBoards = () => ({
-   type: "SENDGETTABLES"
+   type: "SENDGETBOARDS"
+});
+
+export const getTasks = (id) => ({
+    type: "SENDGETTASKS",
+    id: id
 });
 
 export const addItem = e => {
@@ -13,3 +18,43 @@ export const addItem = e => {
        }
     }
 };
+
+export const removeItem = (item, index) => {
+    return {
+        type: "SENDREMOVEITEM",
+        objField: {
+            type: "REMOVE",
+            id: item.id,
+            index: index
+        }
+    }
+}
+
+export const updateItem = (item, index) => {
+    return {
+        type: "UPDATINGITEM",
+        objField: {
+            index: index
+        }
+    }
+}
+export const updateItemSend = (item, index, values) => {
+    return {
+        type: "SENDUPDATINGITEM",
+        objField: {
+            type: "UPDATE",
+            item: item.id,
+            index: index,
+            values: values
+        }
+    }
+}
+
+export const cancelUpdate = index => {
+    return {
+        type: "CANCELUPDATINGITEM",
+        objField: {
+            index: index
+        }
+    }
+}
