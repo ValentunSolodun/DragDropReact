@@ -4,20 +4,19 @@ const boards = (state = initialeState, action) => {
     switch (action.type) {
         case "RESULTGETBOARDS":
             return [
-                ...state,
                 ...action.payload
             ]
-        case "RESULTADDITEM":
+        case "RESULTADDITEMPROJECTS":
             return [
                 ...state,
-                { board_name: action.payload.name, board_description: action.payload.description, id: action.payload.id}
+                { name: action.payload.name, description: action.payload.description, id: action.payload.id}
             ]
-        case "RESULTREMOVEITEM":
+        case "RESULTREMOVEITEMPROJECTS":
             return [
                 ...state.slice(0, action.payload.index),
                 ...state.slice(action.payload.index + 1)
             ]
-        case "UPDATINGITEM":
+        case "UPDATINGITEMPROJECTS":
             let newStateUpdating = [...state];
             newStateUpdating[action.objField.index].edit = true;
             return newStateUpdating;
@@ -29,8 +28,8 @@ const boards = (state = initialeState, action) => {
             console.log(action.payload)
             let newStateResultlUpdated = [...state];
             console.log(newStateResultlUpdated);
-            newStateResultlUpdated[action.payload.index].board_name = action.payload.values.name;
-            newStateResultlUpdated[action.payload.index].board_description = action.payload.values.description;
+            newStateResultlUpdated[action.payload.index].name = action.payload.values.name;
+            newStateResultlUpdated[action.payload.index].description = action.payload.values.description;
             delete newStateResultlUpdated[action.payload.index].edit;
             return newStateResultlUpdated;
         default:

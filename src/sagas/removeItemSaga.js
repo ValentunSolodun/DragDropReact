@@ -4,11 +4,18 @@ import API from '../api/fetctData'
 function* fetchingRemoveItem() {
     let {
         objField
-    } = arguments[0]
+    } = arguments[0];
+
+    console.log(objField);
 
     const data = yield call(API.removeItem, objField);
     if(data) {
-        yield put({type:"RESULTREMOVEITEM", payload: {index: objField.index}})
+        if(objField.kind === 'project') {
+            yield put({type:"RESULTREMOVEITEMPROJECTS", payload: {index: objField.index}})
+        }else if(objField.kind === 'tasks') {
+            yield put({type:"RESULTREMOVEITEMTASKS", payload: {index: objField.index}})
+        }
+
     }
 }
 

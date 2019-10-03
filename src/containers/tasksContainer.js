@@ -1,17 +1,20 @@
 import Tables from '../components/table/table';
 import { connect } from 'react-redux';
 import { getTasks } from '../actions/table';
+import CardTask from "../components/table/cardTask";
 import { createSelector } from 'reselect';
 
-// let tasksSelector = createSelector(
-//     state => state.tasks,
-//     tasks => tasks
-// );
+let tasksSelector = createSelector(
+     state => state.tasks,
+     tasks => tasks
+);
 
-const mapStateToProps = state => {
-    console.log(state);
+const mapStateToProps = (state, args) => {
     return {
-        items: state.tasks
+        items: tasksSelector(state),
+        Container: CardTask,
+        type: "tasks",
+        url_id: args.match.params.id
     }
 };
 

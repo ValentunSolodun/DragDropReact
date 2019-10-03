@@ -10,7 +10,7 @@ const Header = () => {
             <NavLink exact activeClassName={styles.active} to='/'>
                 Projects
             </NavLink>
-            <NavLink activeClassName={styles.active} className={styles.disabled} to="/tasks">
+            <NavLink activeClassName={styles.active} className={styles.disabled} to="/project">
                 Tasks
             </NavLink>
             <NavLink activeClassName={styles.active} className={styles.disabled} to="/status">

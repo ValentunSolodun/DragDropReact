@@ -6,7 +6,14 @@ function* fetchingAddItem() {
     if(data) {
         arguments[0].objField.id = data.insertId;
         console.log(arguments[0].objField);
-        yield put({type:"RESULTADDITEM", payload: arguments[0].objField})
+
+        if(arguments[0].objField.kind === 'project') {
+            yield put({type:`RESULTADDITEMPROJECTS`, payload: arguments[0].objField})
+        }else if (arguments[0].objField.kind === 'tasks'){
+            yield put({type:`RESULTADDITEMTASKS`, payload: arguments[0].objField})
+        }
+
+
     }else {
 
     }

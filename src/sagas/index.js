@@ -6,6 +6,7 @@ import addItemSaga from "./addItemSaga";
 import removeItemSaga from "./removeItemSaga";
 import updatingItemSaga from "./updateItemSaga";
 import getTasksSaga from "./getTasksSaga";
+import getStatusesSaga from "./getStatusesSaga";
 
 
 export default function* rootSaga() {
@@ -16,6 +17,7 @@ export default function* rootSaga() {
         getTasksSaga(),
         addItemSaga(),
         removeItemSaga(),
-        updatingItemSaga()
+        updatingItemSaga(),
+        getStatusesSaga()
     ])
 }

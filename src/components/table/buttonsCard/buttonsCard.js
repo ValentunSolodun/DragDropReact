@@ -26,7 +26,7 @@ const ButtonsCard = (props) => {
                     small
                     className={"red " + styles.btn_card}
                     waves="light"
-                    onClick={ () => cancelEditingSingle(index)}
+                    onClick={ (e) => {e.preventDefault(); cancelEditingSingle(index)}}
                     icon={<Icon>close</Icon>}
                 />
                 <Button
@@ -34,7 +34,7 @@ const ButtonsCard = (props) => {
                     small
                     className={"blue " + styles.btn_card}
                     waves="light"
-                    onClick={ () => updateSingleSend(actionWhat, index, values) }
+                    onClick={ (e) => {e.preventDefault(); updateSingleSend(actionWhat, index, values) }}
                     icon={<Icon tiny>check</Icon>}
                 />
             </div>
@@ -48,14 +48,14 @@ const ButtonsCard = (props) => {
                     className={"red " + styles.btn_card}
                     waves="light"
                     icon={<Icon>delete</Icon>}
-                    onClick={() => removeSingle(actionWhat, index)}
+                    onClick={(e) => {e.preventDefault(); removeSingle(actionWhat, index, actionTo)}}
                 />
                 <Button
                     floating
                     small
                     className={"blue " + styles.btn_card}
                     waves="light"
-                    onClick={() => updateSingle(actionWhat, index, values)}
+                    onClick={(e) => { e.preventDefault(); updateSingle(actionWhat, index, values, actionTo);}}
                     icon={<Icon>create</Icon>}
                 />
             </div>
@@ -70,10 +70,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
 
     return {
-       removeSingle: (item, index) => dispatch(removeItem(item, index)),
-       updateSingle: (item, index, values) => {
-           dispatch({type: "SETSTATE", payload: {values: values}  });
-           return dispatch(updateItem(item, index));
+       removeSingle: (item, index, actionTo) => dispatch(removeItem(item, index, actionTo)),
+       updateSingle: (item, index, values, actionTo) => {
+           dispatch({type: "SETSTATEITEM", payload: item });
+           return dispatch(updateItem(item, index, actionTo));
        },
        cancelEditingSingle: index => dispatch(cancelUpdate(index)),
        updateSingleSend: (item, index, values) => dispatch(updateItemSend(item, index, values))

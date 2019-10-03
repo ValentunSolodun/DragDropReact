@@ -11,7 +11,7 @@ const Routing = () => {
     return (
         <div className="container">
             <Route path="/" exact component={Boards} />
-            <Route path="/tasks/:id" component={Tasks} />
+            <Route path="/project/:id" component={Tasks} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
         </div>

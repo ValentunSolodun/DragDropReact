@@ -47,9 +47,67 @@ app.get('/', (req, res) => {
 	db.query(`SELECT * FROM boards WHERE id_user = '${user.id}' `).then(rows => res.send({ rows, user }));
 });
 
-app.get('/tasks/:id', (req, res) => {
+app.get('/project/:id', (req, res) => {
 	let user = req.user;
 	db.query(`SELECT * FROM tasks WHERE id_user = '${user.id}' AND id_board = ${req.params["id"]}`)
+		.then(rows => res.send(rows))
+		.catch(e => res.sendStatus(403));
+});
+
+
+
+
+
+app.post('/project/:id', (req, res) => {
+	let user = req.user;
+
+	const addItem = () => {
+
+		let {
+			name,
+			date,
+			status
+		} = req.body;
+
+		db.query(`INSERT INTO tasks (name, date, status, id_user, id_board) VALUES ('${name}', '${date}', '${status}', ${user.id}, ${req.params["id"]})`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403));
+	}
+
+	const removeItem = () => {
+		let {
+			self_id
+		} = req.body;
+
+		console.log(req.body);
+
+		db.query(`DELETE FROM tasks WHERE id_user = ${user.id} AND id = ${self_id} AND id_board=${req.params["id"]}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403))
+	}
+
+
+	switch (req.body.type) {
+		case 'ADD':
+			addItem();
+			break;
+		case 'REMOVE':
+			removeItem();
+			break;
+		case 'UPDATE':
+			updateItem();
+			break;
+		default:
+			console.log('default');
+	}
+
+});
+
+
+
+app.get('/statuses', (req, res) => {
+	let user = req.user;
+	db.query(`SELECT * FROM statuses WHERE id_user = '${user.id}'`)
 		.then(rows => res.send(rows))
 		.catch(e => res.sendStatus(403));
 });
@@ -63,17 +121,17 @@ app.post('/', (req, res) => {
 			description,
 		} = req.body;
 
-		db.query(`INSERT INTO boards (board_name, board_description, id_user) VALUES ('${name}', '${description}', ${user.id})`)
+		db.query(`INSERT INTO boards (name, description, id_user) VALUES ('${name}', '${description}', ${user.id})`)
 			.then(rows => res.send(rows))
 			.catch(e => res.sendStatus(403))
 	}
 
 	const removeItem = () => {
 		let {
-			id
+			self_id
 		} = req.body;
 
-		db.query(`DELETE FROM boards WHERE id_user = ${user.id} AND id = ${id}`)
+		db.query(`DELETE FROM boards WHERE id_user = ${user.id} AND id = ${self_id}`)
 			.then(rows => res.send(rows))
 			.catch(e => res.sendStatus(403))
 	}
@@ -85,7 +143,7 @@ app.post('/', (req, res) => {
 			values
 		} = req.body;
 
-		db.query(`UPDATE boards SET board_name = '${values.name}', board_description = '${values.description}' WHERE id_user = ${user.id} AND id = ${item}`)
+		db.query(`UPDATE boards SET name = '${values.name}', description = '${values.description}' WHERE id_user = ${user.id} AND id = ${item}`)
 			.then(rows => res.send(rows))
 			.catch(e => res.sendStatus(403));
 	}
@@ -124,13 +182,13 @@ app.post('/', (req, res) => {
 
 	switch (req.body.type) {
 		case 'ADD':
-			addItem();
+			addItem(req.body.kind);
 			break;
 		case 'REMOVE':
-			removeItem();
+			removeItem(req.body.kind);
 			break;
 		case 'UPDATE':
-			updateItem();
+			updateItem(req.body.kind);
 			break;
 		default:
 			console.log('default');

@@ -1,5 +1,6 @@
 .active {
     background-color: rgba(0,0,0,0.1);
+    color: #fff !important;
 }
 .disabled {
     pointer-events: none;
