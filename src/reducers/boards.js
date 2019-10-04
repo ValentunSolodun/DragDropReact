@@ -20,11 +20,11 @@ const boards = (state = initialeState, action) => {
             let newStateUpdating = [...state];
             newStateUpdating[action.objField.index].edit = true;
             return newStateUpdating;
-        case "CANCELUPDATINGITEM":
+        case "CANCELUPDATINGITEMPROJECTS":
             let newStateCancelUpdating = [...state];
             delete newStateCancelUpdating[action.objField.index].edit;
             return newStateCancelUpdating;
-        case "RESULTUPDATEITEM" :
+        case "RESULTUPDATEITEMPROJECT" :
             console.log(action.payload)
             let newStateResultlUpdated = [...state];
             console.log(newStateResultlUpdated);

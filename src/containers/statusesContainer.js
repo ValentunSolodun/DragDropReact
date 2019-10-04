@@ -1,24 +1,23 @@
 import Tables from '../components/table/table';
-// import React from 'react';
 import { connect } from 'react-redux';
-import { getBoards } from '../actions/table';
+import { getStatuses  } from '../actions/table';
 import { createSelector } from 'reselect';
-import CardProject from "../components/table/cardProject";
+import CardStatus from "../components/table/cardStatus";
 import {history} from "../helpers/history";
 
-let boardsSelector = createSelector(
-    state => state.boards,
-    boards => boards
+let statusesSelector = createSelector(
+    state => state.statuses,
+    statuses => statuses
 );
 
 const mapStateToProps = state => ({
-    items: boardsSelector(state),
-    Container: CardProject,
-    type : 'project'
+    items: statusesSelector(state),
+    Container: CardStatus,
+    type : 'statuses'
 })
 
 const mapDispatchToProps = dispatch => {
-    dispatch(getBoards());
+    dispatch(getStatuses());
     return {};
 }
 

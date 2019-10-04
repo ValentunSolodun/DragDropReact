@@ -8,7 +8,13 @@ function* fetchingUpdatingItem() {
 
     const data = yield call(API.updateItem, objField);
     if(data) {
-        yield put({type:"RESULTUPDATEITEM", payload: {index: objField.index, values: objField.values}})
+        if(objField.kind === 'project') {
+            yield put({type:"RESULTUPDATEITEMPROJECT", payload: {index: objField.index, values: objField.values}})
+        }else if(objField.kind === 'tasks') {
+            yield put({type:"RESULTUPDATEITEMTASKS", payload: {index: objField.index, values: objField.values}})
+        }else if(objField.kind === 'statuses') {
+            yield put({type:"RESULTUPDATEITEMSTATUSES", payload: {index: objField.index, values: objField.values}})
+        }
     }
 }
 

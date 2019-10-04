@@ -47,14 +47,32 @@ const getTasks = async data => {
     }
 }
 
+const getSingleTask = async data => {
+    let {id_1, id_2 } = data;
+    try {
+        const response = await axios.get(`http://localhost:3001/project/${id_1}/tasks/${id_2}`, { headers: {token: cookie.load('token')}});
+
+        if(response.status === 200) {
+            let json = response.data;
+            return json;
+        }else {
+            return false;
+        }
+    }catch (e) {
+        console.log("Fetch err (get boards) " + e);
+    }
+}
+
 const addItem = async data => {
     let body = data;
     try {
         let url;
-        if(body.kind == 'project') {
+        if(body.kind === 'project') {
             url = 'http://localhost:3001/'
-        }else if(body.kind == 'tasks') {
+        }else if(body.kind === 'tasks') {
             url = `http://localhost:3001/project/${body.id}`
+        }else if(body.kind === 'statuses') {
+            url = `http://localhost:3001/statuses/`
         }
         const response = await axios.post(url , body, { headers: {token: cookie.load('token')}});
 
@@ -74,10 +92,12 @@ const removeItem = async data => {
     let body = data;
     try {
         let url;
-        if(body.kind == 'project') {
+        if(body.kind === 'project') {
             url = 'http://localhost:3001/'
-        }else if(body.kind == 'tasks') {
+        }else if(body.kind === 'tasks') {
             url = `http://localhost:3001/project/${body.id_board}`
+        }else if(body.kind === 'statuses') {
+            url = `http://localhost:3001/statuses/`
         }
         const response = await axios.post(url, body, { headers: {token: cookie.load('token')}});
 
@@ -95,7 +115,15 @@ const removeItem = async data => {
 const updateItem = async data => {
     let body = data;
     try {
-        const response = await axios.post('http://localhost:3001/', body, { headers: {token: cookie.load('token')}});
+        let url;
+        if(body.kind === 'project') {
+            url = 'http://localhost:3001/'
+        }else if(body.kind === 'tasks') {
+            url = `http://localhost:3001/project/${body.id_board}`
+        }else if(body.kind === 'statuses') {
+            url = `http://localhost:3001/statuses/`
+        }
+        const response = await axios.post(url, body, { headers: {token: cookie.load('token')}});
 
         if(response.status === 200){
             let json = response.data;
@@ -108,4 +136,12 @@ const updateItem = async data => {
     }
 }
 
-export default {getBoards, getTasks, addItem, removeItem, updateItem, getStatuses};
+export default {
+    getBoards,
+    getTasks,
+    addItem,
+    removeItem,
+    updateItem,
+    getStatuses,
+    getSingleTask
+};

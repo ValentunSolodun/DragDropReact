@@ -23,7 +23,8 @@ export const addItem = (e, type, url_id) => {
           name: e.target.name_item.value,
           description: e.target.desc_item ? e.target.desc_item.value : "",
           status: e.target.status_item ? e.target.status_item.value : "",
-          date: new Date().toISOString().slice(0, 19).replace('T', ' ')
+          date: new Date().toISOString().slice(0, 19).replace('T', ' '),
+          color: e.target.color_item ? e.target.color_item.value : ""
        }
     }
 };
@@ -49,9 +50,16 @@ export const updateItem = (item, index, kind) => {
                 index: index,
             }
         }
-    } else {
+    } else if(kind === "tasks"){
         return {
             type: "UPDATINGITEMTASKS",
+            objField: {
+                index: index,
+            }
+        }
+    } else if(kind === "statuses"){
+        return {
+            type: "UPDATINGITEMSTATUSES",
             objField: {
                 index: index,
             }
@@ -59,23 +67,42 @@ export const updateItem = (item, index, kind) => {
     }
 
 }
-export const updateItemSend = (item, index, values) => {
+export const updateItemSend = (item, index, values, kind) => {
     return {
         type: "SENDUPDATINGITEM",
         objField: {
             type: "UPDATE",
-            item: item.id,
+            kind: kind,
+            id_board: item.id_board || item.id,
+            self_id: item.id,
             index: index,
             values: values
         }
     }
 }
 
-export const cancelUpdate = index => {
-    return {
-        type: "CANCELUPDATINGITEM",
-        objField: {
-            index: index
+export const cancelUpdate = (index, kind) => {
+    if(kind === 'project') {
+        return {
+            type: "CANCELUPDATINGITEMPROJECTS",
+            objField: {
+                index: index
+            }
+        }
+    }else if(kind === "tasks") {
+        return {
+            type: "CANCELUPDATINGITEMTASKS",
+            objField: {
+                index: index
+            }
+        }
+    }else if(kind === "statuses") {
+        return {
+            type: "CANCELUPDATINGITEMSTATUSES",
+            objField: {
+                index: index
+            }
         }
     }
+
 }

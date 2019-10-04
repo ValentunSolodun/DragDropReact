@@ -26,7 +26,7 @@ const ButtonsCard = (props) => {
                     small
                     className={"red " + styles.btn_card}
                     waves="light"
-                    onClick={ (e) => {e.preventDefault(); cancelEditingSingle(index)}}
+                    onClick={ (e) => {e.preventDefault(); cancelEditingSingle(index, actionTo)}}
                     icon={<Icon>close</Icon>}
                 />
                 <Button
@@ -34,7 +34,7 @@ const ButtonsCard = (props) => {
                     small
                     className={"blue " + styles.btn_card}
                     waves="light"
-                    onClick={ (e) => {e.preventDefault(); updateSingleSend(actionWhat, index, values) }}
+                    onClick={ (e) => {e.preventDefault(); updateSingleSend(actionWhat, index, values, actionTo) }}
                     icon={<Icon tiny>check</Icon>}
                 />
             </div>
@@ -75,8 +75,8 @@ const mapDispatchToProps = (dispatch) => {
            dispatch({type: "SETSTATEITEM", payload: item });
            return dispatch(updateItem(item, index, actionTo));
        },
-       cancelEditingSingle: index => dispatch(cancelUpdate(index)),
-       updateSingleSend: (item, index, values) => dispatch(updateItemSend(item, index, values))
+       cancelEditingSingle: (index, actionTo) => dispatch(cancelUpdate(index, actionTo)),
+       updateSingleSend: (item, index, values, actionTo) => dispatch(updateItemSend(item, index, values, actionTo))
     }
 };
 

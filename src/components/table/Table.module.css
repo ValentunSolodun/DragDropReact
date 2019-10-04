@@ -46,6 +46,14 @@
     color: #808080;
     margin-top: 10px;
 }
+.status_color {
+    font-weight: bold;
+    width: max-content;
+}
+
+.disabled_link {
+    pointer-events: none;
+}
 
 @keyframes tr_card {
     from {

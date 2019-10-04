@@ -18,6 +18,9 @@ const FromAddItem = (props) => {
                         {statuses.map(item => <option value={item.name}>{item.name}</option>) }
                     </Select>
                 ) : null}
+                {type === 'statuses' ? (
+                    <input id="color_item" type="color"/>
+                ) : null}
                 <Button type="submit" waves="light">
                     Add
                     <Icon right>

@@ -12,7 +12,7 @@ const MyInput = (props) => {
     } = props
 
     return (
-        <input style={MyStyle} type={Type} defaultValue={DefaultValue} onClick={ (e) => e.preventDefault()  } onInput={(e) => onInputValue(Field, e.target.value) }/>
+        <input style={MyStyle} type={Type} defaultValue={DefaultValue} onInput={(e) => onInputValue(Field, e.target.value) }/>
     )
 }
 

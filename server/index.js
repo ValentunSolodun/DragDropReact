@@ -41,10 +41,27 @@ app.use('/', (req, res, next) => {
 	});
 });
 
+app.get('/project/:id_board/tasks/:id_task', (req, res) => {
+	let user = req.user;
+
+	let values = {
+		id_board: +req.params["id_board"],
+		id_task: +req.params["id_task"]
+	}
+
+	console.log(values)
+
+	db.query(`SELECT * FROM tasks WHERE id_user = ${user.id} AND id_board = ${values.id_board} AND id = ${values.id_task} `)
+		.then(rows => res.send(rows))
+		.catch(e => res.sendStatus(403))
+});
+
 
 app.get('/', (req, res) => {
 	let user = req.user;
-	db.query(`SELECT * FROM boards WHERE id_user = '${user.id}' `).then(rows => res.send({ rows, user }));
+	db.query(`SELECT * FROM boards WHERE id_user = '${user.id}' `)
+		.then(rows => res.send({ rows, user }))
+		.catch(e => res.sendStatus(403))
 });
 
 app.get('/project/:id', (req, res) => {
@@ -86,6 +103,21 @@ app.post('/project/:id', (req, res) => {
 			.catch(e => res.sendStatus(403))
 	}
 
+	const updateItem = () => {
+		let {
+			self_id,
+			id_board,
+			values,
+		} = req.body;
+
+		console.log(req.body);
+
+		db.query(`UPDATE tasks SET name = '${values.name}', status = '${values.status}', 
+		date = '${new Date(values.date).toISOString().slice(0, 19).replace('T', ' ')}' WHERE id_board = ${id_board} AND id_user = ${user.id} AND id = ${self_id}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403));
+	}
+
 
 	switch (req.body.type) {
 		case 'ADD':
@@ -110,6 +142,56 @@ app.get('/statuses', (req, res) => {
 	db.query(`SELECT * FROM statuses WHERE id_user = '${user.id}'`)
 		.then(rows => res.send(rows))
 		.catch(e => res.sendStatus(403));
+});
+app.post('/statuses', (req, res) => {
+	let user = req.user;
+
+	const addItem = () => {
+		let {
+			name,
+			color,
+		} = req.body;
+
+		db.query(`INSERT INTO statuses (name, id_user, color) VALUES ('${name}', ${user.id}, '${color}')`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403))
+	}
+
+	const removeItem = () => {
+		let {
+			self_id
+		} = req.body;
+
+		db.query(`DELETE FROM statuses WHERE id_user = ${user.id} AND id = ${self_id}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403))
+	}
+
+	const updateItem = () => {
+		console.log(req.body)
+		let {
+			self_id,
+			values
+		} = req.body;
+
+		db.query(`UPDATE statuses SET name = '${values.name}', color = '${values.color}' WHERE id_user = ${user.id} AND id = ${self_id}`)
+			.then(rows => res.send(rows))
+			.catch(e => res.sendStatus(403));
+	}
+
+	switch (req.body.type) {
+		case 'ADD':
+			addItem();
+			break;
+		case 'REMOVE':
+			removeItem();
+			break;
+		case 'UPDATE':
+			updateItem();
+			break;
+		default:
+			console.log('default');
+	}
 });
 
 app.post('/', (req, res) => {
@@ -139,11 +221,11 @@ app.post('/', (req, res) => {
 	const updateItem = () => {
 		console.log(req.body)
 		let {
-			item,
+			self_id,
 			values
 		} = req.body;
 
-		db.query(`UPDATE boards SET name = '${values.name}', description = '${values.description}' WHERE id_user = ${user.id} AND id = ${item}`)
+		db.query(`UPDATE boards SET name = '${values.name}', description = '${values.description}' WHERE id_user = ${user.id} AND id = ${self_id}`)
 			.then(rows => res.send(rows))
 			.catch(e => res.sendStatus(403));
 	}

@@ -7,6 +7,7 @@ import removeItemSaga from "./removeItemSaga";
 import updatingItemSaga from "./updateItemSaga";
 import getTasksSaga from "./getTasksSaga";
 import getStatusesSaga from "./getStatusesSaga";
+import getSingleTaskSaga from "./getSingleTaskSata";
 
 
 export default function* rootSaga() {
@@ -18,6 +19,7 @@ export default function* rootSaga() {
         addItemSaga(),
         removeItemSaga(),
         updatingItemSaga(),
-        getStatusesSaga()
+        getStatusesSaga(),
+        getSingleTaskSaga()
     ])
 }

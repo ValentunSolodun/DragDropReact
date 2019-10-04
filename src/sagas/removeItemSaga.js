@@ -14,8 +14,9 @@ function* fetchingRemoveItem() {
             yield put({type:"RESULTREMOVEITEMPROJECTS", payload: {index: objField.index}})
         }else if(objField.kind === 'tasks') {
             yield put({type:"RESULTREMOVEITEMTASKS", payload: {index: objField.index}})
+        } else if(objField.kind === 'statuses') {
+            yield put({type:"RESULTREMOVEITEMSTATUSES", payload: {index: objField.index}})
         }
-
     }
 }
 

@@ -9,7 +9,7 @@ const CardTask = (props) => {
     let {
         item,
         i,
-        type = 'tasks',
+        type
     } = props;
 
     return (
@@ -19,10 +19,10 @@ const CardTask = (props) => {
             title={ item.edit ? <MyInput Field={"name"} MyStyle={{width: 65+'%'}} Type={"text"} DefaultValue={item.name} /> : item.name}
         >
             <div className='status_task_wrapper'>
-                {item.edit ? <SelectStatus /> : <div className={styles.status_task}>{item.status}</div> }
+                {item.edit ? <SelectStatus selected={item.status} Field={"status"} /> : <div className={styles.status_task} style={{'background': 'red'}}>{item.status}</div> }
             </div>
             <div className="data_task">
-                {item.edit ? <MyInput Field={"description"} Type={"text"} DefaultValue={item.description} /> :
+                {item.edit ? <MyInput Field={"date"} Type={"date"} DefaultValue={ new Date(item.date) } /> :
                     <div className={styles.status_date}> { new Date(item.date).toLocaleDateString() } </div>}
             </div>
             <ButtonsCard editingBtn={item.edit} index={i} actionWhat={item} actionTo={type}/>
