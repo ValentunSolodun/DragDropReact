@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getStatuses  } from '../actions/table';
 import { createSelector } from 'reselect';
 import CardStatus from "../components/table/cardStatus";
-import {history} from "../helpers/history";
 
 let statusesSelector = createSelector(
     state => state.statuses,

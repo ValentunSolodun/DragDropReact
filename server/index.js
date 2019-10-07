@@ -51,9 +51,13 @@ app.get('/project/:id_board/tasks/:id_task', (req, res) => {
 
 	console.log(values)
 
-	db.query(`SELECT * FROM tasks WHERE id_user = ${user.id} AND id_board = ${values.id_board} AND id = ${values.id_task} `)
+	db.query(`select tasks.id, tasks.name, tasks.date, tasks.status, tasks.id_user, 
+		tasks.id_board, statuses.color from tasks inner join statuses on tasks.status = statuses.name 
+		WHERE tasks.id_user = ${user.id} AND tasks.id_board = ${values.id_board} AND tasks.id = ${values.id_task}`)
 		.then(rows => res.send(rows))
 		.catch(e => res.sendStatus(403))
+
+		
 });
 
 
@@ -66,9 +70,15 @@ app.get('/', (req, res) => {
 
 app.get('/project/:id', (req, res) => {
 	let user = req.user;
-	db.query(`SELECT * FROM tasks WHERE id_user = '${user.id}' AND id_board = ${req.params["id"]}`)
+	// db.query(`SELECT * FROM tasks WHERE id_user = '${user.id}' AND id_board = ${req.params["id"]}`)
+	// 	.then(rows => res.send(rows))
+	// 	.catch(e => res.sendStatus(403));
+
+	db.query(`select tasks.id, tasks.name, tasks.date, tasks.status, tasks.id_user, 
+		tasks.id_board, statuses.color from tasks inner join statuses on tasks.status = statuses.name 
+		WHERE tasks.id_user = '${user.id}' AND tasks.id_board = ${req.params["id"]}`)
 		.then(rows => res.send(rows))
-		.catch(e => res.sendStatus(403));
+		.catch(e => res.sendStatus(403))
 });
 
 

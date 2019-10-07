@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { getTasks } from '../actions/table';
 import CardTask from "../components/table/cardTask";
 import { createSelector } from 'reselect';
-import {history} from "../helpers/history";
 
 let tasksSelector = createSelector(
      state => state.tasks,

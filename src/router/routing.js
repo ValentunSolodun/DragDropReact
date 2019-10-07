@@ -1,5 +1,4 @@
-import { Route, Router } from 'react-router-dom';
-import {history} from "../helpers/history";
+import { Route } from 'react-router-dom';
 import Boards from "../containers/boardsContainer";
 import Tasks from "../containers/tasksContainer";
 import SingleTasks from '../containers/singleTaskContainer';

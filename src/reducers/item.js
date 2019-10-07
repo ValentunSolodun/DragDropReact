@@ -16,6 +16,7 @@ const item = (state = initialeState, action) => {
             }else if(action.payload.field === "color"){
                 return {...state, color: action.payload.value}
             }
+            break;
         default:
             return state;
     }

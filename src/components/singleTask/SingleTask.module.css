@@ -1,0 +1,9 @@
+.single_task_status {
+    padding: 2px 5px;
+    border-radius: 4px;
+    width: max-content;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    color: #fff;
+}

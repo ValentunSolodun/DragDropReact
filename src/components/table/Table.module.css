@@ -55,6 +55,7 @@
     pointer-events: none;
 }
 
+
 @keyframes tr_card {
     from {
         opacity: 0;
