@@ -1,0 +1,73 @@
+.select_row {
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.select_row button {
+    margin-right: 20px;
+}
+
+.task_statuses_page_wrapper {
+    margin-top: 20px;
+}
+
+.task_statuses__items {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board_wrapper {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.statuses_wrapper__ {
+    display: flex;
+}
+
+.empty_tasks_wrapper {
+    font-size: 16px;
+    color: #6b768f;
+    opacity: 0.5;
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.board_name_label {
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 20px;
+    color: #1b2f51;
+}
+
+.statuses_wrapper {
+    background: #f2f3f5;
+    width: 23%;
+    margin: 10px 10px 10px 0;
+    padding: 10px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.status_name_label {
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 20px;
+    color: #808a9f;
+}
+
+.tasks_wrapper {
+    background: #fff;
+    color: #6b768f;
+    font-weight: bold;
+}

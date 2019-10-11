@@ -5,7 +5,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.form_wrapper form{
+
+.form_wrapper form {
     width: 100%;
 }
 

@@ -10,21 +10,25 @@ import App from './App';
 // import { history } from "./helpers/history";
 
 import * as serviceWorker from './serviceWorker';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
 import rootReducer from './reducers'
 import {applyMiddleware, createStore} from "redux";
 import rootSaga from "./sagas";
+import {DndProvider} from "react-dnd";
+import HTML5Backend from 'react-dnd-html5-backend';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(sagaMiddleware)))
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('root'));
+  <Provider store={store}>
+    <DndProvider backend={HTML5Backend}>
+      <App/>
+    </DndProvider>
+  </Provider>,
+  document.getElementById('root'));
 
 serviceWorker.unregister();

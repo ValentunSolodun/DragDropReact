@@ -1,9 +1,47 @@
-.single_task_status {
-    padding: 2px 5px;
-    border-radius: 4px;
-    width: max-content;
-    text-align: center;
-    font-weight: bold;
-    font-size: 13px;
+/*.single_task_status {*/
+/*    padding: 2px 5px;*/
+/*    border-radius: 4px;*/
+/*    width: max-content;*/
+/*    text-align: center;*/
+/*    font-weight: bold;*/
+/*    font-size: 13px;*/
+/*    color: #fff;*/
+/*}*/
+.single_task_name {
+    color: #4c4c4c;
+}
+
+.single_task_desc {
+    color: #4c4c4c;
+    font-size: 18px;
+}
+
+.single_task_status_group * {
     color: #fff;
+}
+
+.single_task_date {
+    color: #808080;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.single_task_wrapper > div {
+    margin: 20px 0;
+}
+
+.single_task_container {
+    position: relative;
+}
+
+.btn_action_in_task {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.select_group {
+    display: flex;
+    align-items: center;
 }
