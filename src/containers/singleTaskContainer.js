@@ -18,7 +18,6 @@ const mapDispatchToProps = (dispatch, args) => {
   };
 }
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
     item: singleTaskSelector(state)
   }

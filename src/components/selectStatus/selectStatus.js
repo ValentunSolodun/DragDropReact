@@ -12,22 +12,14 @@ const SelectStatus = (props) => {
     allStatuses
   } = props;
 
-  // console.log(statuses);
-  // console.log(allStatuses);
-
-  // function filterSelect() {
-  //   let filteredMas = [];
-  //
-  //   for(let i = 0; i < statuses.length; i++) {
-  //     let one = allStatuses.every(item => item.name !== statuses[i].name);
-  //     if(one) filteredMas.push(statuses[i]);
+  // function getFilteredSelected() {
+  //   let prevSelect = allStatuses[index_select - 1];
+  //   if( prevSelect ) {
+  //     statuses.forEach((item, i) => item.name === prevSelect.name ? statuses.splice(i, 1) : false)
   //   }
-  //
-  //   return filteredMas;
-  //
   // }
   //
-  // console.log(filterSelect());
+  // getFilteredSelected();
 
   return (
     <Select onChange={(e) => onInputValue(Field, statuses[e.target.defaultValue || e.target.value], index_select)}

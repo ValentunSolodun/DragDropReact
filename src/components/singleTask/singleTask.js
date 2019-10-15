@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './SingleTask.module.css';
-import {Chip, Icon, Switch, Textarea, Button} from 'react-materialize';
+import {Chip, Icon, Switch, Button} from 'react-materialize';
 import {connect} from 'react-redux';
 import {updateSingleTask} from '../../actions/singleTask';
 import MyInput from '../myInput/myInput';
@@ -27,7 +27,7 @@ class SingleTask extends Component {
             item.edit ?
               <div>
                 <MyInput Field={'name'} Type={'text'} DefaultValue={item.name}/>
-                <MyInput Field={'description'} Type={'text'} DefaultValue={item.description}/>
+                <MyInput Field={'description'} Type={'textarea'} DefaultValue={item.description}/>
                 <div>
                   {item.statusesGroup.map((item, i_) =>
                     (

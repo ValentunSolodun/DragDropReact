@@ -132,7 +132,7 @@ const updateItem = async data => {
       return false;
     }
   } catch (e) {
-    console.log("Fetch err (remove item) " + e);
+    console.log("Fetch err (updateItem) " + e);
   }
 }
 
@@ -140,6 +140,23 @@ const getSelectedStatus = async data => {
   let { project_id, status_id } = data;
   try {
     const response = await axios.post(`http://localhost:3001/task_statuses/${project_id}`, data, {headers: {token: cookie.load('token')}});
+
+    if (response.status === 200) {
+      let json = response.data;
+      return json;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log("Fetch err (getSelectedStatus) " + e);
+  }
+}
+
+const getDraggableStatuses = async data => {
+  let { project_id } = data;
+  // console.log(project_id);
+  try {
+    const response = await axios.get(`http://localhost:3001/task_statuses/${project_id}`, {headers: {token: cookie.load('token')}});
 
     if (response.status === 200) {
       let json = response.data;
@@ -160,5 +177,6 @@ export default {
   updateItem,
   getStatuses,
   getSingleTask,
-  getSelectedStatus
+  getSelectedStatus,
+  getDraggableStatuses
 };

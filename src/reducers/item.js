@@ -5,11 +5,7 @@ const item = (state = initialeState, action) => {
     case "SETSTATEITEM" :
       return {
         ...state,
-        name: action.payload.name,
-        description: action.payload.description,
-        statusGroup: action.payload.statusesGroup,
-        date: action.payload.date,
-        color: action.payload.color
+        ...action.payload
       }
     case "INPUTTINGITEM" :
       if (action.payload.field === "name") {
@@ -24,7 +20,7 @@ const item = (state = initialeState, action) => {
         return {...state, color: action.payload.value}
       } else if (action.payload.field === "statusGroup") {
         let newState = {...state};
-        newState.statusGroup[action.payload.index] = {
+        newState.statusesGroup[action.payload.index] = {
           ...action.payload.item
         }
 

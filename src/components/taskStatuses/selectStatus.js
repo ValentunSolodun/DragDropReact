@@ -1,7 +1,7 @@
 import React from "react";
 import {Select} from "react-materialize";
 import {connect} from "react-redux";
-import {selectedStatus} from '../../../actions/taskStatuses';
+import {selectedStatus} from '../../actions/taskStatuses';
 
 const SelectStatus = (props) => {
 

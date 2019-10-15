@@ -17,19 +17,19 @@ const tasks = (state = initialeState, action) => {
           id: action.payload.id_insert,
           id_board: action.payload.id,
           statusesGroup: [{
-            id: action.payload.status.id,
-            name: action.payload.status.name,
-            color: action.payload.status.color
+            ...action.payload.status
           }]
         }
       ]
     case "RESULTADDSTATUSFORTASKS":
-      state[action.payload.indexTask].statusesGroup.push({
-        id: action.payload.item.id,
-        name: action.payload.item.name,
-        color: action.payload.item.color,
-      });
-      return [...state];
+      const newStateAddStatus = [...state];
+      // if(newStateAddStatus[action.payload.indexTask].statusesGroup.every(item => item.name !== action.payload.item.name))
+      // {
+        newStateAddStatus[action.payload.indexTask].statusesGroup.push({
+          ...action.payload.item
+        })
+      // }
+      return newStateAddStatus;
     case "RESULTREMOVESTATUSFORTASKS" :
       const newState = [...state]
       newState[action.payload.indexTask].statusesGroup.splice(action.payload.indexStatus, 1);
@@ -44,12 +44,11 @@ const tasks = (state = initialeState, action) => {
       newStateUpdating[action.objField.index].edit = true;
       return newStateUpdating;
     case "RESULTUPDATEITEMTASKS" :
-      console.log(action.payload)
+      // console.log(action.payload)
       let newStateResultlUpdated = [...state];
-      console.log(newStateResultlUpdated);
-      newStateResultlUpdated[action.payload.index].name = action.payload.values.name;
-      newStateResultlUpdated[action.payload.index].status = action.payload.values.status;
-      newStateResultlUpdated[action.payload.index].date = action.payload.values.date;
+      newStateResultlUpdated[action.payload.index] = {
+        ...action.payload.values
+      }
       delete newStateResultlUpdated[action.payload.index].edit;
       return newStateResultlUpdated;
     case "CANCELUPDATINGITEMTASKS":

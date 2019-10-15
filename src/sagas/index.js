@@ -10,6 +10,7 @@ import getStatusesSaga from "./getStatusesSaga";
 import getSingleTaskSaga from "./getSingleTaskSata";
 import getSelectedStatus from "./getTaskStatusesSaga"
 import updatingSingleTaskSaga from "./updateSingleTaskSaga";
+import getDraggableStatusesSaga from "./getDraggableStatusesSaga";
 
 
 export default function* rootSaga() {
@@ -24,6 +25,7 @@ export default function* rootSaga() {
     getStatusesSaga(),
     getSingleTaskSaga(),
     getSelectedStatus(),
-    updatingSingleTaskSaga()
+    updatingSingleTaskSaga(),
+    getDraggableStatusesSaga()
   ])
 }

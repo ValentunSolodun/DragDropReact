@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Textarea} from 'react-materialize';
 
 const MyInput = (props) => {
 
@@ -10,6 +11,12 @@ const MyInput = (props) => {
     Field,
     onInputValue
   } = props
+
+  if(Type === 'textarea') {
+    return (
+      <Textarea style={MyStyle} defaultValue={DefaultValue} onInput={(e) => onInputValue(Field, e.target.value)}/>
+    )
+  }
 
   return (
     <input style={MyStyle} type={Type} defaultValue={DefaultValue}

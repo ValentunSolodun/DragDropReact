@@ -41,6 +41,31 @@ app.use('/', (req, res, next) => {
   });
 });
 
+
+app.get('/task_statuses/:id', async (req, res) => {
+  let user = req.user;
+  
+  try {
+    let getStatuses = await db.query(`select s.id, s.name, s.id_board, s.color from statuses as s inner join draggable_statuses as 
+    ds on ds.id_status = s.id where ds.id_board = ${req.params['id']}`);
+    await setTasks(getStatuses);
+
+    res.send(getStatuses);
+  }catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+
+  async function setTasks(arr) {
+    for (item of arr) {
+      let getTasks = await db.query(`select t.id, t.name from tasks as t inner join tasks_statuses as ts 
+      on ts.id_task = t.id where ts.id_status = ${item.id} and t.id_board = ${req.params['id']}`)
+      if (!getTasks) return;
+      item.tasksGroup = getTasks;
+    }
+  }
+});
+
 app.post('/task_statuses/:id', async (req, res) => {
   let user = req.user;
 
@@ -52,8 +77,8 @@ app.post('/task_statuses/:id', async (req, res) => {
   try {
     let getStatuses = await db.query(`select s.id, s.name, s.id_board, s.color from statuses as s where s.id_board = ${req.params['id']} 
     and s.id = ${status_id}`)
+    let setStatuses = await db.query(`insert into draggable_statuses (id_board, id_status) values (${req.params['id']}, ${status_id})`)
     await setTasks(getStatuses);
-
 
     res.send(getStatuses);
   } catch (err) {
@@ -93,7 +118,7 @@ app.get('/project/:id_board/tasks/:id_task', async (req, res) => {
 
   try {
 
-    let response = await db.query(`select t.id, t.name, t.description, t.date from tasks as t where id_board = ${values.id_board} and id = ${values.id_task}`)
+    let response = await db.query(`select t.id, t.id_board, t.name, t.description, t.date from tasks as t where id_board = ${values.id_board} and id = ${values.id_task}`)
     await setStatusesInTask(response);
 
     res.send(response);
@@ -133,7 +158,7 @@ app.get('/project/:id', async (req, res) => {
 
   const setStatusesInTask = async (arr) => {
     for (let item of arr) {
-      let responseStatuses = await db.query(`select s.id, s.name, s.color from dragdrop.statuses as s inner 
+      let responseStatuses = await db.query(`select s.id, s.name, s.color, s.id_board from dragdrop.statuses as s inner 
 			join dragdrop.tasks_statuses as ts on ts.id_status = s.id WHERE s.id_board = ${req.params["id"]} AND ts.id_task = ${item.id}`)
         .catch(e => res.sendStatus(403))
       item.statusesGroup = responseStatuses;
@@ -208,11 +233,27 @@ app.post('/project/:id', (req, res) => {
       values,
     } = req.body;
 
-    try {
-      await updateConnectedTable(values.statusGroup);
+    console.log(req.body);
 
-      let response = await db.query(`UPDATE tasks SET name = '${values.name}', description = '${values.description}', 
-      date = '${new Date(values.date).toISOString().slice(0, 19).replace('T', ' ')}' WHERE id_board = ${id_board} AND id = ${self_id}`)
+    function unique(arr) {
+      let result = [];
+    
+      for (let key of arr) {
+        if (!result.some(item => item.name === key.name)) {
+          result.push(key);
+        }
+      }
+
+      console.log(result);
+    
+      return result;
+    }
+
+    try {
+      await updateConnectedTable(unique(values.statusesGroup));
+
+      let response = await db.query(`update tasks set name = '${values.name}', description = '${values.description}', 
+      date = '${new Date(values.date).toISOString().slice(0, 19).replace('T', ' ')}' where id_board = ${id_board} AND id = ${self_id}`)
       res.send(response);
 
     } catch (err) {
@@ -221,6 +262,7 @@ app.post('/project/:id', (req, res) => {
     }
 
     async function updateConnectedTable(arr) {
+
       let response = await db.query(`delete from tasks_statuses where id_task = ${self_id}`);
       for (key of arr) {
         await db.query(`insert into tasks_statuses (id_task, id_status) values (${self_id}, ${key.id})`)

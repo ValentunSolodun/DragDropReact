@@ -1,12 +1,14 @@
 import React from "react";
 import {Card, Button, Divider, Icon} from 'react-materialize';
 import styles from '../taskStatuses/taskStatuses.module.css';
-import SelectStatus from "./selectStatus/selectStatus";
+import SelectStatus from "./selectStatus";
+import CardDraggable from "./сardDraggable";
+import DragTarget from "./dragTarget";
 
 const TaskStatuses = (props) => {
   let {items, taskStatuses, toggleSelect, project_id} = props;
 
-  console.log(items);
+  console.log(props);
 
   return (
     <div className={styles.task_statuses_page_wrapper}>
@@ -29,15 +31,15 @@ const TaskStatuses = (props) => {
       </div>
       <div className={styles.task_statuses__items}>
         {
-          taskStatuses.allData.map((item, i) => <div className={styles.statuses_wrapper}>
-                  <span className={styles.status_name_label}>{item.name}</span>
-                  {
-                    item.tasksGroup.length ?
-                      item.tasksGroup.map((item_, i_) => <Card className={styles.tasks_wrapper}>
-                        <span className={styles.task_name_label}>{item_.name}</span>
-                      </Card>) : <div className={styles.empty_tasks_wrapper}> Drop to add</div>
-                  }
-                </div>)
+          taskStatuses.allData.map((item, i) => <DragTarget indexStatus={i}>
+            <span className={styles.status_name_label}>{item.name}</span>
+            {
+              item.tasksGroup.length ?
+                item.tasksGroup.map((item_, i_) => <CardDraggable indexStatus={i} indexTask={i_} item={item_} />)
+                :
+                <div className={styles.empty_tasks_wrapper}> Drop to add</div>
+            }
+          </DragTarget>)
 
         }
       </div>
