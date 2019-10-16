@@ -1,6 +1,6 @@
 import Tables from '../components/table/table';
 import {connect} from 'react-redux';
-import {getBoards, getStatuses} from '../actions/table';
+import {getBoards} from '../actions/table';
 import {createSelector} from 'reselect';
 import CardProject from "../components/table/cardProject";
 
@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   dispatch({type: 'RESET_PATH'});
-  dispatch({type: 'RESET_TASK_STATUSES'});
   dispatch(getBoards());
   return {};
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import styles from './SingleTask.module.css';
-import {Chip, Icon, Switch, Button} from 'react-materialize';
+import {Chip, Icon, Button} from 'react-materialize';
 import {connect} from 'react-redux';
 import {updateSingleTask} from '../../actions/singleTask';
 import MyInput from '../myInput/myInput';

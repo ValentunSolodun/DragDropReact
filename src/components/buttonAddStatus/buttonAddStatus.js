@@ -5,7 +5,7 @@ import {Icon, Button} from "react-materialize";
 
 const ButtonAddStatus = (props) => {
 
-  let {addStatus, allStatuses, indexTask, items, Type} = props;
+  let {addStatus, indexTask, items, Type} = props;
 
   return (
     <Button onClick={() => addStatus(indexTask, items[0], Type)} floating small className="red"

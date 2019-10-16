@@ -8,8 +8,8 @@ const SelectStatus = (props) => {
     Field,
     onInputValue,
     selected,
-    index_select,
-    allStatuses
+    index_select
+    // allStatuses
   } = props;
 
   // function getFilteredSelected() {

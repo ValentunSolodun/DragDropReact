@@ -39,13 +39,21 @@
     transform: translate(-50%, -50%);
 }
 
-.board_name_label {
-    font-weight: bold;
-    font-size: 20px;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 20px;
-    color: #1b2f51;
+/*.board_name_label {*/
+/*    font-weight: bold;*/
+/*    font-size: 20px;*/
+/*    text-transform: uppercase;*/
+/*    display: block;*/
+/*    !*margin-bottom: 20px;*!*/
+/*    color: #1b2f51;*/
+/*}*/
+.wrapper_name_btn_delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.wrapper_name_btn_delete * {
+    color: #808a9f !important;
 }
 
 .statuses_wrapper {
@@ -62,7 +70,6 @@
     font-size: 14px;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 20px;
     color: #808a9f;
 }
 

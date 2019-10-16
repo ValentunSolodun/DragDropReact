@@ -6,11 +6,6 @@ import { connect } from "react-redux";
 
 class DragTarget extends Component {
 
-  constructor(props) {
-    super(props);
-    let { connectDropTarget, indexStatus } = this.props;
-  }
-
   render() {
     return this.props.connectDropTarget(
       <div className={styles.statuses_wrapper}>
@@ -26,29 +21,18 @@ const statusTarget = {
     let itemSource = {
       item: monitor.getItem().taskItem,
       indexStatus: monitor.getItem().indexStatus,
-      indexTask: monitor.getItem().indexStatus
+      indexTask: monitor.getItem().indexTask,
+      idStatus: monitor.getItem().idStatus
     }
 
     let itemTarget = {
+      item: props.item,
       indexStatus: props.indexStatus
     }
 
-    props.dropped(itemSource, itemTarget);
+    props.dropped(itemSource, itemTarget, props.project_id);
 
-    console.log(props)
-    console.log(monitor.getItem())
-    console.log(component)
-
-    // const dragIndex = monitor.getItem().index;
-    // const hoverIndex = props.i;
-    //
-    // if (dragIndex === hoverIndex) {
-    //   return;
-    // }
-    //
-    // props.moveCard(dragIndex, hoverIndex);
-    //
-    // monitor.getItem().index = hoverIndex;
+    console.log(itemTarget)
   }
 };
 
@@ -57,10 +41,10 @@ const collect = (connect) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dropped: (itemSource, itemTarget) =>  dispatch(dropOnTarget(itemSource, itemTarget))
+  dropped: (itemSource, itemTarget, project_id) =>  dispatch(dropOnTarget(itemSource, itemTarget, project_id))
 });
 
 DragTarget = DropTarget("task", statusTarget, collect)(DragTarget)
-DragTarget = connect(state => [], mapDispatchToProps)(DragTarget)
+DragTarget = connect(state => ({}), mapDispatchToProps)(DragTarget)
 
 export default DragTarget;

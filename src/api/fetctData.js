@@ -137,7 +137,7 @@ const updateItem = async data => {
 }
 
 const getSelectedStatus = async data => {
-  let { project_id, status_id } = data;
+  let { project_id } = data;
   try {
     const response = await axios.post(`http://localhost:3001/task_statuses/${project_id}`, data, {headers: {token: cookie.load('token')}});
 
@@ -169,6 +169,36 @@ const getDraggableStatuses = async data => {
   }
 }
 
+const dropSend = async data => {
+  try {
+    const response = await axios.post(`http://localhost:3001/task_statuses/${data.project_id}`, data, {headers: {token: cookie.load('token')}});
+
+    if (response.status === 200) {
+      let json = response.data;
+      return json;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log("Fetch err (dropSend) " + e);
+  }
+}
+
+const removeStatusFromTaskStatuses = async data => {
+  try {
+    const response = await axios.post(`http://localhost:3001/task_statuses/${data.project_id}`, data, {headers: {token: cookie.load('token')}});
+
+    if (response.status === 200) {
+      let json = response.data;
+      return json;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.log("Fetch err (removeStatusFromTaskStatuses) " + e);
+  }
+}
+
 export default {
   getBoards,
   getTasks,
@@ -178,5 +208,7 @@ export default {
   getStatuses,
   getSingleTask,
   getSelectedStatus,
-  getDraggableStatuses
+  getDraggableStatuses,
+  dropSend,
+  removeStatusFromTaskStatuses
 };

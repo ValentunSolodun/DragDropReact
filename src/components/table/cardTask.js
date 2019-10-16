@@ -1,4 +1,4 @@
-import {Card, Button, Icon, Chip} from "react-materialize";
+import {Card, Chip} from "react-materialize";
 import styles from "./Table.module.css";
 import MyInput from "../myInput/myInput";
 import ButtonsCard from "./buttonsCard/buttonsCard";
@@ -13,8 +13,6 @@ const CardTask = (props) => {
     i,
     type
   } = props;
-
-  let statusesGroup = item.statusesGroup;
 
   return (
     <Card

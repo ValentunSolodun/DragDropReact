@@ -6,7 +6,7 @@ import {DragSource} from 'react-dnd';
 class CardDraggable extends Component {
   render() {
 
-    let {item, indexStatus, indexTask, connectDragSource} = this.props
+    let {item, connectDragSource} = this.props
 
     return connectDragSource(
       <div>
@@ -25,6 +25,7 @@ const taskSource = {
       taskItem: {
         ...props.item
       },
+      idStatus: props.idStatus,
       indexTask: props.indexTask,
       indexStatus: props.indexStatus
     }

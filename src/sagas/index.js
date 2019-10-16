@@ -11,6 +11,7 @@ import getSingleTaskSaga from "./getSingleTaskSata";
 import getSelectedStatus from "./getTaskStatusesSaga"
 import updatingSingleTaskSaga from "./updateSingleTaskSaga";
 import getDraggableStatusesSaga from "./getDraggableStatusesSaga";
+import {dragDropSaga, removeStatusFromTaskStatusesSaga} from "./dragDropSaga";
 
 
 export default function* rootSaga() {
@@ -26,6 +27,8 @@ export default function* rootSaga() {
     getSingleTaskSaga(),
     getSelectedStatus(),
     updatingSingleTaskSaga(),
-    getDraggableStatusesSaga()
+    getDraggableStatusesSaga(),
+    dragDropSaga(),
+    removeStatusFromTaskStatusesSaga()
   ])
 }

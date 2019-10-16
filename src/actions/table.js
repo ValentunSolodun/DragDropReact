@@ -12,13 +12,6 @@ export const getStatuses = (id) => ({
   id: id
 });
 
-export const getDraggableStatuses = (project_id) => ({
-  type: "SEND_GET_DRAGGABLE_STATUSES",
-  objField : {
-    project_id
-  }
-});
-
 export const addItem = (e, type, project_id, statuses) => {
   e.preventDefault();
   // console.dir(e.target)

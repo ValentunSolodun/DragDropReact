@@ -9,11 +9,11 @@ const SelectStatus = (props) => {
 
   return (
     <Select onChange={(e) => selectedStatus(items[e.target.value], project_id)}>
-      <option selected value="" disabled>
+      <option selected value="" defaultValue={""} disabled>
         Choose your status
       </option>
       {
-        items.map((item, i) => <option value={i}>{item.name}</option>)
+        items.map((item, i) => <option value={i} defaultValue={i}>{item.name}</option>)
       }
     </Select>
   )

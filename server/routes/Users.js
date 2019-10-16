@@ -3,10 +3,7 @@ const users = express.Router();
 const db = require('../databases/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-// const cookieParser = require('cookie-parser');
-// const bodyParser = require("body-parser");
-
-process.env.SECRET_KEY = 'secret';
+const config = require('../config');
 
 users.post('/register', (req, res) => {
   console.log(req.body);
@@ -55,7 +52,7 @@ users.post('/login', (req, res) => {
           name: name,
           email: email,
         };
-        return token = jwt.sign(u, process.env.SECRET_KEY, {
+        return token = jwt.sign(u, config.secret, {
           expiresIn: 60 * 60 * 24
         });
       }

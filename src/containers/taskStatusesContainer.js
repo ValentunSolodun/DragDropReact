@@ -1,9 +1,10 @@
 import TaskStatuses from "../components/taskStatuses/taskStatuses";
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
-import {getBoards} from '../actions/table'
-import {toggleSelect} from '../actions/taskStatuses';
-import { getDraggableStatuses } from '../actions/table';
+// import { getBoards } from '../actions/table'
+import {toggleSelect, removeStatusFromTaskStatuses} from '../actions/taskStatuses';
+import {getDraggableStatuses} from '../actions/dragdrop';
+import {getStatuses} from "../actions/table";
 
 let taskStatusesSelector = createSelector(
   state => state.statuses,
@@ -19,8 +20,10 @@ const mapStateToProps = (state, args) => ({
 const mapDispatchToProps = (dispatch, args) => {
   dispatch({type: "CHANGED_PATH_TASKS", payload: {id_1: args.match.params.id}});
   dispatch(getDraggableStatuses(args.match.params.id));
+  dispatch(getStatuses(args.match.params.id));
   return {
-    toggleSelect: (showSelect) => dispatch(toggleSelect(showSelect))
+    toggleSelect: (showSelect) => dispatch(toggleSelect(showSelect)),
+    removeStatus: (indexStatus, idStatus, project_id) => dispatch(removeStatusFromTaskStatuses(indexStatus, idStatus, project_id))
   };
 }
 

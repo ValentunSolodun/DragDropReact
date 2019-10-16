@@ -11,7 +11,7 @@ function* fetchingGetSelectedProject() {
   const data = yield call(API.getSelectedStatus, objField);
 
   if (data) {
-    yield put({type: "RESULT_GET_TASKS_STATUSES", payload: data});
+    yield put({type: "RESULT_GET_SELECTED_STATUS", payload: data});
   } else {
     history.push('/login');
   }
