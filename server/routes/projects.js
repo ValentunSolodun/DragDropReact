@@ -1,13 +1,26 @@
 const express = require("express");
 const Projects = express.Router();
 const db = require("../databases/db");
+// const BoardsUsers = require("../models/BoardsUsers.model");
+const { Boards, BoardsUsers } = require("../models/All");
 
 Projects.get('/', (req, res) => {
     let user = req.user;
 
-    db.query(`select b.id, b.name, b.description from boards as b inner join boards_users as bs on bs.id_board = b.id where bs.id_user = ${user.id} `)
+    Boards.findAll({
+        attributes: ["id", "name", "description"],
+        include: [{
+            attributes: [],
+            model: BoardsUsers,
+            where: { userId: user.id }
+        }]
+    })
         .then(rows => res.send({ rows, user }))
-        .catch(e => res.sendStatus(403))
+        .catch(e => console.log(e))
+
+    // db.query(`select b.id, b.name, b.description from boards as b inner join boards_users as bs on bs.id_board = b.id where bs.id_user = ${user.id} `)
+    //     .then(rows => res.send({ rows, user }))
+    //     .catch(e => res.sendStatus(403))
 });
 
 Projects.post('/', async (req, res) => {
@@ -21,16 +34,39 @@ Projects.post('/', async (req, res) => {
         } = req.body;
 
         try {
-            let insertInBoards = await db.query(`insert into boards (name, description) values ('${name}', '${description}')`)
-            let insertInBoardsUser = await db.query(`insert into boards_users (id_board, id_user) values (${insertInBoards.insertId}, ${user.id})`)
+
+            let insertInBoards = await Boards.create({
+                name,
+                description
+            })
+
+            console.log(insertInBoards);
+
+            BoardsUsers.create({
+                boardId: insertInBoards.id,
+                userId: user.id
+            })
 
             res.send(insertInBoards);
 
         } catch (err) {
             console.log(err);
             res.sendStatus(500);
-
         }
+
+
+
+        // try {
+        //     let insertInBoards = await db.query(`insert into boards (name, description) values ('${name}', '${description}')`)
+        //     let insertInBoardsUser = await db.query(`insert into boards_users (id_board, id_user) values (${insertInBoards.insertId}, ${user.id})`)
+
+        //     res.send(insertInBoards);
+
+        // } catch (err) {
+        //     console.log(err);
+        //     res.sendStatus(500);
+
+        // }
 
     }
 
@@ -41,7 +77,13 @@ Projects.post('/', async (req, res) => {
 
         try {
 
-            let deleteBoard = await db.query(`delete from boards where id = ${self_id}`)
+            let deleteBoard = await Boards.destroy({
+                where: {
+                    id: self_id
+                }
+            })
+
+            // let deleteBoard = await db.query(`delete from boards where id = ${self_id}`)
 
             res.send(200);
 
@@ -61,9 +103,18 @@ Projects.post('/', async (req, res) => {
         } = req.body;
 
         try {
-            let response = await db.query(`update boards set name = '${values.name}', description = '${values.description}' WHERE id = ${self_id}`);
 
-            res.send(response);
+            let updateBoard = await Boards.update({
+                name: values.name,
+                description: values.description
+            }, {
+                where: {
+                    id: self_id
+                }
+            })
+            // let response = await db.query(`update boards set name = '${values.name}', description = '${values.description}' WHERE id = ${self_id}`);
+
+            res.send(updateBoard);
         } catch (err) {
             res.sendStatus(500)
         }

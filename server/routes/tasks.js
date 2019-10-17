@@ -2,28 +2,49 @@ const express = require("express");
 const tasks = express.Router();
 const db = require("../databases/db");
 const singleTask = require("./routeSingleTask/singleTask")
+const { Tasks, TasksStatuses, Statuses } = require("../models/All");
 
 tasks.use(singleTask);
 
 tasks.get('/:id', async (req, res) => {
+
     let user = req.user;
 
-    const setStatusesInTask = async (arr) => {
-        for (let item of arr) {
-            let responseStatuses = await db.query(`select s.id, s.name, s.color, s.id_board from dragdrop.statuses as s inner 
-              join dragdrop.tasks_statuses as ts on ts.id_status = s.id WHERE s.id_board = ${req.params["id"]} AND ts.id_task = ${item.id}`)
-                .catch(e => res.sendStatus(403))
-            item.statusesGroup = responseStatuses;
-        }
-        ;
+    try {
+        let getTasks = await Tasks.findAll({
+            attributes: ["id", "name", "description", "date", "boardId"],
+            where: {
+                boardId: req.params["id"]
+            }
+        });
+
+        await setStatusesInTask(getTasks);
+        res.send(getTasks);
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(403)
     }
 
-    let response = await db.query(`select t.id, t.name, t.date, t.id_board FROM tasks as t where t.id_board = ${req.params["id"]}`)
-        .catch(e => res.sendStatus(403))
-
-    await setStatusesInTask(response);
-
-    res.send(response);
+    async function setStatusesInTask(arr) {
+        for (let item of arr) {
+            let responseStatuses = await Statuses.findAll({
+                attributes: ["id", "name", "boardId", "color"],
+                where: {
+                    boardId: req.params["id"]
+                },
+                include: [{
+                    model: TasksStatuses,
+                    where: {
+                        taskId: item.id
+                    }
+                }]
+            })
+            //     let responseStatuses = await db.query(`select s.id, s.name, s.color, s.id_board from dragdrop.statuses as s inner 
+            //   join dragdrop.tasks_statuses as ts on ts.id_status = s.id WHERE s.id_board = ${req.params["id"]} AND ts.id_task = ${item.id}`)
+            //         .catch(e => res.sendStatus(403))
+            item.dataValues.statusesGroup = responseStatuses;
+        }
+    }
 });
 
 tasks.post('/:id', (req, res) => {
@@ -38,8 +59,21 @@ tasks.post('/:id', (req, res) => {
         } = req.body;
 
         try {
-            let insertTask = await db.query(`insert into tasks (name, description, date, id_board) values ('${name}', '${name}', '${date}', ${req.params["id"]})`);
-            let insertConnect = await db.query(`insert into tasks_statuses (id_task, id_status) values (${insertTask.insertId}, ${status.id})`);
+
+            let insertTask = await Tasks.create({
+                name: name,
+                description: name,
+                date: date,
+                boardId: req.params["id"]
+            });
+
+            let insertTaskStatuses = await TasksStatuses.create({
+                taskId: insertTask.id,
+                statusId: status.id
+            });
+
+            // let insertTask = await db.query(`insert into tasks (name, description, date, id_board) values ('${name}', '${name}', '${date}', ${req.params["id"]})`);
+            // let insertConnect = await db.query(`insert into tasks_statuses (id_task, id_status) values (${insertTask.insertId}, ${status.id})`);
 
             res.send(insertTask);
         } catch (err) {
@@ -54,10 +88,18 @@ tasks.post('/:id', (req, res) => {
         } = req.body;
 
         try {
-            let deleteTask = await db.query(`delete from tasks where id = ${self_id} AND id_board=${req.params["id"]}`);
-            res.send(deleteTask);
+
+            let deleteTask = await Tasks.destroy({
+                where: {
+                    id: self_id,
+                    boardId: req.params["id"]
+                }
+            });
+            // let deleteTask = await db.query(`delete from tasks where id = ${self_id} AND id_board=${req.params["id"]}`);
+            res.send(200);
         } catch (err) {
-            res.sendStatus(400);
+            console.log(err);
+            res.sendStatus(500);
         }
 
     }
@@ -77,7 +119,7 @@ tasks.post('/:id', (req, res) => {
                     result.push(key);
                 }
             }
-            
+
             return result;
         }
 
