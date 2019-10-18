@@ -2,7 +2,7 @@ const express = require("express");
 const Projects = express.Router();
 const db = require("../databases/db");
 // const BoardsUsers = require("../models/BoardsUsers.model");
-const { Boards, BoardsUsers } = require("../models/All");
+const { Boards, BoardsUsers } = require("../models/rootModels");
 
 Projects.get('/', (req, res) => {
     let user = req.user;
@@ -85,7 +85,7 @@ Projects.post('/', async (req, res) => {
 
             // let deleteBoard = await db.query(`delete from boards where id = ${self_id}`)
 
-            res.send(200);
+            res.sendStatus(200);
 
         } catch (err) {
             console.log(err)

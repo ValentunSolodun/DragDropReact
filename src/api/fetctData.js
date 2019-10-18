@@ -119,9 +119,9 @@ const updateItem = async data => {
     if (body.kind === 'project') {
       url = 'http://localhost:3001/'
     } else if (body.kind === 'tasks') {
-      url = `http://localhost:3001/project/${body.id_board}`
+      url = `http://localhost:3001/project/${body.boardId}`
     } else if (body.kind === 'statuses') {
-      url = `http://localhost:3001/statuses/${body.id_board}`
+      url = `http://localhost:3001/statuses/${body.boardId}`
     }
     const response = await axios.post(url, body, {headers: {token: cookie.load('token')}});
 

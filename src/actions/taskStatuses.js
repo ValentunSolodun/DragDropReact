@@ -1,4 +1,5 @@
 export const selectedStatus = (whatStatus, project_id) => {
+  console.log(whatStatus, project_id);
   return {
     type: "SEND_SELECT_STATUS",
     objField: {

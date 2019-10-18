@@ -31,8 +31,6 @@ const statusTarget = {
     }
 
     props.dropped(itemSource, itemTarget, props.project_id);
-
-    console.log(itemTarget)
   }
 };
 

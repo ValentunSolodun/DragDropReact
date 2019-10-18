@@ -9,7 +9,11 @@ const boards = (state = initialeState, action) => {
     case "RESULTADDITEMPROJECTS":
       return [
         ...state,
-        {name: action.payload.name, description: action.payload.description, id: action.payload.id}
+        {
+          id: action.payload.id,
+          name: action.payload.name,
+          description: action.payload.description
+        }
       ]
     case "RESULTREMOVEITEMPROJECTS":
       return [

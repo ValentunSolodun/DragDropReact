@@ -1,7 +1,7 @@
 const express = require("express");
 const statuses = express.Router();
 const db = require('../databases/db');
-const { Statuses } = require("../models/All");
+const { Statuses } = require("../models/rootModels");
 
 
 
@@ -11,6 +11,7 @@ statuses.get('/:id', async (req, res) => {
     try {
 
         let getStatuses = await Statuses.findAll({
+            attributes: ["id", "name", "color", "boardId"],
             where: {
                 boardId: req.params['id']
             }
@@ -60,7 +61,7 @@ statuses.post('/:id', async (req, res) => {
                 }
             });
             // let removeStatus = await db.query(`delete from statuses where id_board = ${req.params['id']} and id = ${self_id}`);
-            res.send(removeStatus);
+            res.sendStatus(200);
         } catch (err) {
             res.sendStatus(500)
         }
@@ -80,7 +81,8 @@ statuses.post('/:id', async (req, res) => {
                 color: values.color
             }, {
                 where: {
-                    boardId: req.params['id']
+                    boardId: req.params['id'],
+                    id: self_id
                 }
             })
 

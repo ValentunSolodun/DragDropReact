@@ -6,13 +6,15 @@ function* fetchingAddItem() {
   const data = yield call(API.addItem, arguments[0].objField);
   if (data) {
     if (arguments[0].objField.kind === 'project') {
-      arguments[0].objField.id = data.insertId;
+      arguments[0].objField.id = data.id;
       yield put({type: `RESULTADDITEMPROJECTS`, payload: arguments[0].objField})
     } else if (arguments[0].objField.kind === 'tasks') {
-      arguments[0].objField.id_insert = data.insertId;
+      arguments[0].objField.id = data.id;
+      arguments[0].objField.boardId = data.boardId;
       yield put({type: `RESULTADDITEMTASKS`, payload: arguments[0].objField})
     } else if (arguments[0].objField.kind === 'statuses') {
-      arguments[0].objField.id_insert = data.insertId;
+      arguments[0].objField.id = data.id;
+      arguments[0].objField.boardId = data.boardId;
       yield put({type: `RESULTADDITEMSTATUSES`, payload: arguments[0].objField})
     }
   } else {

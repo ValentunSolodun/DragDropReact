@@ -1,39 +1,59 @@
 const express = require("express");
 const singleTask = express.Router();
 const db = require("../../databases/db");
+const { Tasks, Statuses, TasksStatuses } = require("../../models/rootModels");
 
-singleTask.get('/:id_board/tasks/:id_task', async (req, res) => {
-    let user = req.user;
-    
-    console.log(req.params);
+singleTask.get('/:boardId/tasks/:taskId', async (req, res) => {
+  let user = req.user;
 
-    let values = {
-      id_board: +req.params["id_board"],
-      id_task: +req.params["id_task"]
-    }
-  
-    try {
-  
-      let response = await db.query(`select t.id, t.id_board, t.name, t.description, t.date from tasks as t where id_board = ${values.id_board} and id = ${values.id_task}`)
-      await setStatusesInTask(response);
-  
-      res.send(response);
-  
-    } catch (err) {
-      console.log(err);
-      res.sendStatus(500);
-    }
-  
-    async function setStatusesInTask(arr) {
-      for (let item of arr) {
-        let responseStatuses = await db.query(`select s.id, s.name, s.color from dragdrop.statuses as s inner 
-              join dragdrop.tasks_statuses as ts on ts.id_status = s.id WHERE s.id_board = ${values.id_board} AND ts.id_task = ${values.id_task}`)
-  
-        item.statusesGroup = responseStatuses;
+  console.log(req.params);
+
+  let values = {
+    boardId: +req.params["boardId"],
+    taskId: +req.params["taskId"]
+  }
+
+  try {
+
+    let getTasks = await Tasks.findAll({
+      where: {
+        boardId: values.boardId,
+        id: values.taskId
       }
-    }
-  
-  
-  });
+    })
 
-  module.exports = singleTask;
+    // let response = await db.query(`select t.id, t.id_board, t.name, t.description, t.date from tasks as t where id_board = ${values.id_board} and id = ${values.id_task}`)
+    await setStatusesInTask(getTasks);
+
+    res.send(getTasks);
+
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+
+  async function setStatusesInTask(arr) {
+    for (let item of arr) {
+      let setStatusesInTask = await Statuses.findAll({
+        attributes: ["id", "name", "boardId", "color"],
+        where: {
+          boardId: values.boardId
+        },
+        include: [{
+          model: TasksStatuses,
+          where: {
+            taskId: item.id
+          }
+        }]
+      })
+      // await db.query(`select s.id, s.name, s.color from dragdrop.statuses as s inner 
+      //       join dragdrop.tasks_statuses as ts on ts.id_status = s.id WHERE s.id_board = ${values.id_board} AND ts.id_task = ${values.id_task}`)
+
+      item.dataValues.statusesGroup = setStatusesInTask;
+    }
+  }
+
+
+});
+
+module.exports = singleTask;

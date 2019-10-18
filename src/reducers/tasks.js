@@ -14,8 +14,8 @@ const tasks = (state = initialeState, action) => {
           name: action.payload.name,
           status: action.payload.status,
           date: action.payload.date,
-          id: action.payload.id_insert,
-          id_board: action.payload.id,
+          id: action.payload.id,
+          boardId: action.payload.boardId,
           statusesGroup: [{
             ...action.payload.status
           }]

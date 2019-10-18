@@ -6,8 +6,6 @@ function* fetchingRemoveItem() {
     objField
   } = arguments[0];
 
-  console.log(objField);
-
   const data = yield call(API.removeItem, objField);
   if (data) {
     if (objField.kind === 'project') {

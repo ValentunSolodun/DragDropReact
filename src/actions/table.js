@@ -77,7 +77,7 @@ export const updateItemSend = (item, index, values, kind) => {
     objField: {
       type: "UPDATE",
       kind: kind,
-      id_board: item.boardId || item.id,
+      boardId: item.boardId || item.id,
       self_id: item.id,
       index: index,
       values: values

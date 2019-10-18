@@ -13,7 +13,12 @@ const statuses = (state = initialeState, action) => {
     case "RESULTADDITEMSTATUSES" :
       return [
         ...state,
-        {name: action.payload.name, color: action.payload.color, id: action.payload.id}
+        {
+          id: action.payload.id,
+          boardId: action.payload.boardId,
+          name: action.payload.name,
+          color: action.payload.color,
+        }
       ]
     case "CARDMOVE" :
       return update(state, {$splice: [[action.payload.dragIndex, 1], [action.payload.hoverIndex, 0, action.payload.dragCard]]});

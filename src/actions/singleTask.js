@@ -13,14 +13,14 @@ export const updateSingleTask = (isChecked) => ({
     isChecked: isChecked
   }
 });
-export const updateSingleTaskSend = (item, index, values) => {
 
+export const updateSingleTaskSend = (item, index, values) => {
   return {
     type: "SENDUPDATEITEMSINGLETASKS",
     objField: {
       type: "UPDATE",
       kind: 'tasks',
-      id_board: item.id_board || item.id,
+      boardId: item.boardId || item.id,
       self_id: item.id,
       index: index,
       values: values
