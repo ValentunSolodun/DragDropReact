@@ -1,25 +1,47 @@
-const Sequelize = require("sequelize");
-// const mongoose = require("mongoose");
+// const Sequelize = require("sequelize");
 // const Users = require("../models/User.model");
+const mongoose = require("mongoose");
 
-// mongoose.Promise = global.Promise;
 
-const sequelize = new Sequelize('drag_drop_sequelize', 'root', '12345', {
-  host: 'localhost',
-  dialect: 'mysql',
-  logging: false
-});
+mongoose.connect("mongodb://localhost:27017/dragAndDrop", { useNewUrlParser: true });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
 
-sequelize.sync();
+
+// const user = new User({
+//   name: "Bill",
+//   age: 41
+// });
+//
+// user.save(function(err){
+//   mongoose.disconnect();  // отключение от базы данных
+//
+//   if(err) return console.log(err);
+//   console.log("Сохранен объект", user);
+// });
+
+
+/////////////Sequelize/////////////
+
+// const sequelize = new Sequelize('drag_drop_sequelize', 'root', '12345', {
+//   host: 'localhost',
+//   dialect: 'mysql',
+//   logging: false
+// });
+//
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Connection has been established successfully.');
+//   })
+//   .catch(err => {
+//     console.error('Unable to connect to the database:', err);
+//   });
+//
+// sequelize.sync();
+
+
+/////////////My SQL/////////////
+
 // const mysql = require('mysql');
 
 // const configDB = {
@@ -50,4 +72,4 @@ sequelize.sync();
 
 // const db = new DB(configDB);
 
-module.exports = sequelize;
+// module.exports = sequelize;

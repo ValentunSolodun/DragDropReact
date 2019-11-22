@@ -4,7 +4,10 @@ const users = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const config = require('../config');
-const { Users } = require('../models/rootModels');
+const User = require("../models/User");
+const mongoose = require("mongoose");
+const _ = require("lodash");
+// const { Users } = require('../models/rootModels');
 
 users.post('/register', (req, res) => {
   console.log(req.body);
@@ -18,15 +21,31 @@ users.post('/register', (req, res) => {
     findOneUser(userObj.email).then(
       result => {
         console.log(result)
-        if (result.length) res.send('User is already exist');
+        if (!_.isEmpty(result)) res.send('User is already exist');
+        // if (result.length) res.send('User is already exist');
         else {
-          Users.create({
+          let newUser = new User({
             name: userObj.name,
             email: userObj.email,
             password: hash
+          });
+
+          newUser.save((err) => {
+            mongoose.disconnect();
+            if (err) {
+              res.sendStatus(500);
+              return console.log(err);
+            }
+            res.send("Registered")
+            console.log("Сохранен объект", newUser);
           })
-            .then(() => res.send("Registered"))
-            .catch(err => res.sendStatus(500))
+          // Users.create({
+          //   name: userObj.name,
+          //   email: userObj.email,
+          //   password: hash
+          // })
+          //   .then(() => res.send("Registered"))
+          //   .catch(err => res.sendStatus(500))
           // db.query(`INSERT INTO users(name, email, password) VALUES ('${userObj.name}', '${userObj.email}', '${hash}' )`).then(
           //   result => {
           //     res.send('Registered')
@@ -38,11 +57,12 @@ users.post('/register', (req, res) => {
   });
 
   async function findOneUser(email) {
-    return Users.findAll({
-      where: {
-        email: email
-      }
-    })
+    return User.findOne({email: email})
+    // return Users.findAll({
+    //   where: {
+    //     email: email
+    //   }
+    // })
   }
 
 
