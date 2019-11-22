@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, Col} from "react-materialize";
+import {Row, Col, Preloader} from "react-materialize";
 import styles from "./Table.module.css";
 import FromAddItem from "./formAddItem/formAddItem";
 import {history} from "../../helpers/history";
@@ -30,7 +30,7 @@ class Tables extends Component {
           {
             items.length ? items.map((item, i) => <Col key={i} xl={3} m={12} s={12}>
               {item.edit || type === 'statuses'
-                ? <Container moveCard={moveCard} handleDrop={(id) => console.log(id)} type={type}
+                ? <Container moveCard={moveCard} type={type}
                              item={item} i={i}/>
                 : (
                   <Link to={`${pathName}/${type}/${item.id}`}>
@@ -38,7 +38,11 @@ class Tables extends Component {
                   </Link>
                 )
               }
-            </Col>) : <div className={styles.empty_container}>Empty</div>
+            </Col>) : <div className={styles.empty_container}>
+              <Col s={4}>
+                <Preloader size="big"/>
+              </Col>
+            </div>
           }
         </Row>
       </div>

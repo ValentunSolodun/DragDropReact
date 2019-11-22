@@ -1,9 +1,13 @@
 const Sequelize = require("sequelize");
+// const mongoose = require("mongoose");
 // const Users = require("../models/User.model");
+
+// mongoose.Promise = global.Promise;
 
 const sequelize = new Sequelize('drag_drop_sequelize', 'root', '12345', {
   host: 'localhost',
-  dialect: 'mysql'
+  dialect: 'mysql',
+  logging: false
 });
 
 sequelize
@@ -16,23 +20,6 @@ sequelize
   });
 
 sequelize.sync();
-
-// const Users = db.define('users', {
-//   name: {
-//     type: Sequelize.STRING,
-//     allowNull: false
-//   },
-//   email: {
-//     type: Sequelize.STRING,
-//     allowNull: false
-//   },
-//   password: {
-//     type: Sequelize.STRING,
-//     allowNull: false
-//   }
-// });
-
-
 // const mysql = require('mysql');
 
 // const configDB = {

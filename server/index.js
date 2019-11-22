@@ -10,9 +10,9 @@ const Statuses = require("./routes/statuses");
 const Projects = require("./routes/projects");
 const jwt = require('jsonwebtoken');
 const config = require('./config');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 
-var cors = require('cors');
+const cors = require('cors');
 app.use(cookieParser())
 app.use(cors());
 app.use(bodyParser.urlencoded({

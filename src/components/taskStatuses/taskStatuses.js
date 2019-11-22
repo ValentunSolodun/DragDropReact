@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Icon} from 'react-materialize';
+import {Button, Col, Icon, Preloader} from 'react-materialize';
 import styles from '../taskStatuses/taskStatuses.module.css';
 import SelectStatus from "./selectStatus";
 import CardDraggable from "./сardDraggable";
@@ -31,24 +31,30 @@ const TaskStatuses = (props) => {
       </div>
       <div className={styles.task_statuses__items}>
         {
-          taskStatuses.allData.map((item, i) => <DragTarget project_id={project_id} item={item} indexStatus={i}>
-            <div className={styles.wrapper_name_btn_delete}>
-              <span className={styles.status_name_label}>{item.name}</span>
-              <Button onClick={() => removeStatus(i, item.id, project_id)} style={{"background": "transparent", "box-shadow":"none"}}  floating small icon={<Icon>close</Icon>}/>
-            </div>
-            {
-              item.tasksGroup.length ?
-                item.tasksGroup.map((item_, i_) => <CardDraggable idStatus={item.id} indexStatus={i} indexTask={i_}
-                                                                  item={item_}/>)
-                :
-                <div className={styles.empty_tasks_wrapper}> Drop to add</div>
-            }
-          </DragTarget>)
-
+          taskStatuses.allData.length ?
+            taskStatuses.allData.map((item, i) => <DragTarget project_id={project_id} item={item} indexStatus={i}>
+              <div className={styles.wrapper_name_btn_delete}>
+                <span className={styles.status_name_label}>{item.name}</span>
+                <Button onClick={() => removeStatus(i, item.id, project_id)}
+                        style={{"background": "transparent", "box-shadow": "none"}} floating small
+                        icon={<Icon>close</Icon>}/>
+              </div>
+              {
+                item.tasksGroup.length ?
+                  item.tasksGroup.map((item_, i_) => <CardDraggable idStatus={item.id} indexStatus={i} indexTask={i_}
+                                                                    item={item_}/>)
+                  :
+                  <div className={styles.empty_tasks_wrapper}> Drop to add</div>
+              }
+            </DragTarget>) :
+            <Col s={4}>
+              <Preloader size="big"/>
+            </Col>
         }
       </div>
     </div>
   )
 }
+
 
 export default TaskStatuses;
