@@ -6,7 +6,7 @@ function* fetchingAddItem() {
   const data = yield call(API.addItem, arguments[0].objField);
   if (data) {
     if (arguments[0].objField.kind === 'project') {
-      arguments[0].objField.id = data.id;
+      arguments[0].objField._id = data._id;
       yield put({type: `RESULTADDITEMPROJECTS`, payload: arguments[0].objField})
     } else if (arguments[0].objField.kind === 'tasks') {
       arguments[0].objField.id = data.id;

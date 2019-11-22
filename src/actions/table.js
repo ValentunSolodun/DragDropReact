@@ -39,8 +39,8 @@ export const removeItem = (item, index, kind) => {
     objField: {
       type: "REMOVE",
       kind: kind,
-      id: item.boardId || item.id,
-      self_id: item.id,
+      id: item.boardId || item._id,
+      self_id: item._id,
       index: index
     }
   }
@@ -77,8 +77,8 @@ export const updateItemSend = (item, index, values, kind) => {
     objField: {
       type: "UPDATE",
       kind: kind,
-      boardId: item.boardId || item.id,
-      self_id: item.id,
+      boardId: item.boardId || item._id,
+      self_id: item._id,
       index: index,
       values: values
     }

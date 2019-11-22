@@ -6,20 +6,6 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/dragAndDrop", { useNewUrlParser: true });
 
 
-
-// const user = new User({
-//   name: "Bill",
-//   age: 41
-// });
-//
-// user.save(function(err){
-//   mongoose.disconnect();  // отключение от базы данных
-//
-//   if(err) return console.log(err);
-//   console.log("Сохранен объект", user);
-// });
-
-
 /////////////Sequelize/////////////
 
 // const sequelize = new Sequelize('drag_drop_sequelize', 'root', '12345', {
