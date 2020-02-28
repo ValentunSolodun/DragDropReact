@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import styles from "./taskStatuses.module.css";
-import {DropTarget} from 'react-dnd';
-import { dropOnTarget } from "../../actions/dragdrop";
-import { connect } from "react-redux";
+import {DropTarget} from 'react-dnd-cjs';
+import {dropOnTarget} from "../../actions/dragdrop";
+import {connect} from "react-redux";
 
 class DragTarget extends Component {
 
@@ -39,7 +39,7 @@ const collect = (connect) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  dropped: (itemSource, itemTarget, project_id) =>  dispatch(dropOnTarget(itemSource, itemTarget, project_id))
+  dropped: (itemSource, itemTarget, project_id) => dispatch(dropOnTarget(itemSource, itemTarget, project_id))
 });
 
 DragTarget = DropTarget("task", statusTarget, collect)(DragTarget)

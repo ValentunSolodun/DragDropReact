@@ -36,10 +36,8 @@ const mapStateToProps = state => ({
   statuses: state.statuses
 });
 
-const mapDispatchToProps = dispatch => {
-  return {
-    add: (e, type, project_id, statuses) => dispatch(addItem(e, type, project_id, statuses))
-  }
-};
+const mapDispatchToProps = dispatch => ({
+  add: (e, type, project_id, statuses) => dispatch(addItem(e, type, project_id, statuses))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(FromAddItem);

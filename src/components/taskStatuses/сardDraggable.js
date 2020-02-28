@@ -1,7 +1,7 @@
 import { Card } from 'react-materialize';
 import styles from "./taskStatuses.module.css";
 import React, {Component} from "react";
-import {DragSource} from 'react-dnd';
+import { DragSource } from 'react-dnd-cjs';
 
 class CardDraggable extends Component {
   render() {
