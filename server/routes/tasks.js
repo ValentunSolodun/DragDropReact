@@ -1,3 +1,36 @@
+/**
+ * @route GET /project/{boardId}
+ * @group Tasks - API for tasks
+ * @returns {object} 200 - An array of project`s tasks
+ * @param {number} boardId.path.required
+ * @returns {Error} 401 - Unauthorized
+ * @returns {Error} default - Unexpected error
+ * @security JWT
+ */
+
+/**
+ * @typedef PostTaskModel
+ * @property {enum} type - which CRUD operation - eg: ADD, REMOVE, UPDATE
+ * @property {string} name
+ * @property {string} description
+ * @property {date} date
+ * @property {string} status
+ * @property {number} self_id
+ * @property {number} boardId
+ */
+
+/**
+ * UPDATE/DELETE/CREATE projects
+ * @route POST /project/{boardId}
+ * @group Tasks
+ * @param {number} boardId.path.required
+ * @param {PostTaskModel.model} data.body.required
+ * @returns {Error} 401 - Unauthorized
+ * @returns {object} 200
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
+
 const express = require("express");
 const tasks = express.Router();
 const db = require("../databases/db");

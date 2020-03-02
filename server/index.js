@@ -10,8 +10,7 @@ const Projects = require("./routes/projects");
 const jwt = require('jsonwebtoken');
 const config = require('./config');
 const cookieParser = require('cookie-parser');
-const swaggerUi = require('swagger-ui-express');
-const specs = require('./swagger');
+const expressSwagger = require('express-swagger-generator')(app);
 
 const cors = require('cors');
 app.use(cookieParser())
@@ -20,7 +19,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+expressSwagger(config.swagger);
 
 
 app.use('/users', Users);

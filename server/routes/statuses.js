@@ -1,3 +1,31 @@
+/**
+ * @route GET /statuses/{boardId}
+ * @group Statuses - API for statuses
+ * @param {number} boardId.path.required
+ * @returns {object} 200 - An array of user`s projects
+ * @returns {Error} 401 - Unauthorized
+ * @returns {Error} default - Unexpected error
+ * @security JWT
+ */
+
+/**
+ * @typedef PostStatusModel
+ * @property {enum} type - which CRUD operation - eg: ADD, REMOVE, UPDATE
+ * @property {string} name
+ * @property {string} color
+ * @property {number} self_id
+ */
+
+/**
+ * UPDATE/DELETE/CREATE projects
+ * @route POST /statuses/{boardId}
+ * @group Statuses
+ * @param {PostStatusModel.model} data.body.required
+ * @returns {object} 200
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
+
 const express = require("express");
 const statuses = express.Router();
 const db = require('../databases/db');

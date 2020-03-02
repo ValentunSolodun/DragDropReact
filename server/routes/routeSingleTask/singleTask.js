@@ -1,3 +1,14 @@
+/**
+ * @route GET /project/{boardId}/tasks/{taskId}
+ * @group SingleTask - API for open single task
+ * @param {number} boardId.path.required
+ * @param {number} taskId.path.required
+ * @returns {object} 200 - An array of user`s projects
+ * @returns {Error} 401 - Unauthorized
+ * @returns {Error} default - Unexpected error
+ * @security JWT
+ */
+
 const express = require("express");
 const singleTask = express.Router();
 const db = require("../../databases/db");

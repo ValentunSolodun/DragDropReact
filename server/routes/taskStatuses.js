@@ -1,3 +1,33 @@
+/**
+ * @route GET /task_statuses/{boardId}
+ * @group TaskStatuses - API for projects
+ * @param {number} boardId.path.required
+ * @returns {object} 200 - An array of user`s projects
+ * @returns {Error} 401 - Unauthorized
+ * @returns {Error} default - Unexpected error
+ * @security JWT
+ */
+
+/**
+ * @typedef PostTaskStatusesModel
+ * @property {enum} type - which CRUD operation - eg: DROPPED_NEW_TASK, REMOVE_STATUS, ADD_STATUS
+ * @property {number} status_id
+ * @property {object} itemSource
+ * @property {object} itemTarget
+ * @property {number} self_id
+ */
+
+/**
+ * UPDATE/DELETE/CREATE projects
+ * @route POST /task_statuses/{boardId}
+ * @group TaskStatuses
+ * @param {number} boardId.path.required
+ * @param {PostTaskStatusesModel.model} data.body.required
+ * @returns {object} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
+
 const express = require("express");
 const TaskStatuses = express.Router();
 const db = require('../databases/db');
@@ -105,7 +135,6 @@ TaskStatuses.post('/:id', async (req, res) => {
 
     async function droppedNewTask() {
         let {
-            status_id,
             itemSource,
             itemTarget
         } = req.body;
